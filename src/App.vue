@@ -1,23 +1,23 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <Header></Header>
+    <Split></Split>
     <router-view/>
   </div>
 </template>
 
 <script>
+import Header from '@/components/Header'
+import Split from '@/components/Split'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Header,
+    Split
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
