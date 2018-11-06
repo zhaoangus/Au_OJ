@@ -2,12 +2,16 @@
   <div class="header">
     <div class="items">
       <div class="item-wrapper">
-        <span class="iconfont icon-home">&#xe621;</span>
-        <span class="home">Home</span>
+        <router-link class="home" to="/">
+          <span class="iconfont icon-home">&#xe621;</span>
+          Home
+        </router-link>
       </div>
       <div class="item-wrapper">
-        <span class="iconfont icon-problem">&#xe62a;</span>
-        <span class="problem">Problem</span>
+        <router-link class="problem" to="/problem">
+          <span class="iconfont icon-problem">&#xe62a;</span>
+          Problem
+        </router-link>
       </div>
       <div class="item-wrapper">
         <span class="iconfont icon-diccuss">&#xe620;</span>

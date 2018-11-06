@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="layout-wrapper">
-      <div class="news-left">left</div>
+      <div class="news-left"></div>
       <div class="news">NewsList
         <ul >
           <li class="news-list">
@@ -52,7 +52,7 @@
         </ul>
         <JumpPage></JumpPage>
       </div>
-      <div class="news-right">right</div>
+      <div class="news-right"></div>
     </div>
   </div>
 </template>
