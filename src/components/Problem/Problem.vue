@@ -30,7 +30,7 @@
         <tbody>
           <tr>
             <td class="pid">751</td>
-            <td class="title">A + B</td>
+            <td is="router-link" to="/problem/751/descr" class="title">A + B</td>
             <td class="ratio">84.21% (<span class="ratio-num">368</span> / <span class="ratio-num">437</span>)</td>
             <td class="tags">
               <span class="tags-content">level1</span>
@@ -61,7 +61,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  @import '../common/css/base.styl'
+  @import '../../common/css/base.styl'
   .problem
     position: relative
     margin: 0 20px

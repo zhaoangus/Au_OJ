@@ -23,15 +23,27 @@ export default {
       let seperator2 = ':'
       let month = myDate.getMonth() + 1
       let strDate = myDate.getDate()
+      let strH = myDate.getHours()
+      let strM = myDate.getMinutes()
+      let strS = myDate.getSeconds()
       if (month >= 1 && month <= 9) {
         month = '0' + month
       }
       if (strDate >= 1 && strDate <= 9) {
         strDate = '0' + strDate
       }
+      if (strH >= 0 && strH <= 9) {
+        strH = '0' + strH
+      }
+      if (strM >= 0 && strM <= 9) {
+        strM = '0' + strM
+      }
+      if (strS >= 0 && strS <= 9) {
+        strS = '0' + strS
+      }
       return myDate.getFullYear() + seperator1 + month +
-      seperator1 + strDate + ' ' + myDate.getHours() + seperator2 +
-      myDate.getMinutes() + seperator2 + myDate.getSeconds()
+      seperator1 + strDate + ' ' + strH + seperator2 +
+      strM + seperator2 + strS
     }
   }
 }
@@ -54,6 +66,7 @@ export default {
       .link
         display: inline-block
         color: $themeColor
+        cursor: pointer
       a
         color: $themeColor
 </style>

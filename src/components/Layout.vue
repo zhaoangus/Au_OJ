@@ -8,7 +8,7 @@
             <span class="iconfont">&#xe6be;</span>
             <div class="news-info">
               <div class="info">
-                <a href="#">2018年ACM实验室招新个人赛</a>
+                <router-link to="/news/1">2018年ACM实验室招新个人赛</router-link>
               </div>
               <div class="date">2018-10-09 20:37:29</div>
             </div>
