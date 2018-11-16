@@ -13,6 +13,16 @@
         </div>
       </div>
     </div>
+    <div class="content-wrapper">
+      <div class="content-left">
+        11
+      </div>
+      <div class="content-right">
+        <table>
+          1
+        </table>
+      </div>
+    </div>
     stat
   </div>
 </template>
@@ -55,4 +65,11 @@ export default {
             color: #000
             &:hover
               color: $themeColor
+    .content-wrapper
+      display: flex
+      margin: 30px 40px
+      .content-left
+        flex-grow: 1
+      .content-right
+        flex-grow: 1.5
 </style>
