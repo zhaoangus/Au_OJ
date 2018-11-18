@@ -47,20 +47,73 @@
           <div v-if="showLoginContent" class="login-content">
             <form action="" id="login">
               <div class="input-wrapper">
-                <label for="">Username</label>
-                <input type="text">
-                <div id="name-input-err"></div>
+                <span class="label">
+                  <span class="ness">*</span>
+                  <label for="">Username</label>
+                </span>
+                <div class="input">
+                  <input :class="{active: !!name_err}" type="text" v-model="input_name">
+                  <div id="name-input-err">{{name_err}}</div>
+                </div>
               </div>
               <div class="input-wrapper">
-                <label for="">Password</label>
-                <input type="password">
-                <div id="password-input-err"></div>
+                <span class="label">
+                  <span class="ness">*</span>
+                  <label for="">Password</label>
+                </span>
+                <div class="input">
+                  <input :class="{active: !!pass_err}" type="password" v-model="input_pass">
+                  <div id="password-input-err">{{pass_err}}</div>
+                </div>
               </div>
-              <button class="button-control" type="submit">Submit</button>
+              <div class="btn-wrapper">
+                <button class="button-control" type="submit">Submit</button>
+              </div>
             </form>
           </div>
           <div v-else class="regis-content">
-            regis
+            <form action="" id="register">
+              <div class="input-wrapper">
+                <span class="label">
+                  <span class="ness">*</span>
+                  <label for="">Username</label>
+                </span>
+                <div class="input">
+                  <input :class="{active: !!name_err}" type="text" v-model="input_name">
+                  <div id="name-input-err">{{name_err}}</div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <span class="label">
+                  <label id="label-nick" for="">Nickname</label>
+                </span>
+                <div class="input">
+                  <input type="text" v-model="input_nick">
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <span class="label">
+                  <span class="ness">*</span>
+                  <label for="">Password</label>
+                </span>
+                <div class="input">
+                  <input :class="{active: !!pass_err}" type="text" v-model="input_pass">
+                  <div id="password-input-err">{{pass_err}}</div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <span class="label">
+                  <span class="ness">*</span>
+                  <label for="">CheckPwd</label>
+                </span>
+                <div class="input">
+                  <input :class="{active: !check_pwd}" type="text" v-model="input_check">
+                </div>
+              </div>
+              <div class="btn-wrapper">
+                <button class="button-control" type="submit">Submit</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -69,6 +122,7 @@
 </template>
 
 <script>
+import { validatorName, validatorPass } from '../util/validator'
 export default {
   name: 'Header',
   data () {
@@ -76,7 +130,14 @@ export default {
       showLogin: false,
       loginActive: true,
       regisActive: false,
-      showLoginContent: true
+      showLoginContent: true,
+      input_name: '',
+      input_nick: '',
+      input_pass: '',
+      input_check: '',
+      name_err: '',
+      pass_err: '',
+      check_pwd: true
     }
   },
   methods: {
@@ -97,6 +158,17 @@ export default {
       this.loginActive = false
       this.showLoginContent = false
       this.regisActive = true
+    }
+  },
+  watch: {
+    input_name: function () {
+      this.name_err = validatorName(this.input_name)
+    },
+    input_pass: function () {
+      this.pass_err = validatorPass(this.input_pass)
+    },
+    input_check: function () {
+      this.check_pwd = this.input_pass === this.input_check
     }
   }
 }
@@ -159,8 +231,9 @@ export default {
         top: 30%
         left: 30%
         width: 40%
-        height: 60%
+        height: 70%
         background: #fff
+        border-radius: 10px
         .login-label
           margin: 20px 0
           border-bottom: 1px solid rgba(7, 17, 27, .1)
@@ -173,4 +246,102 @@ export default {
           .active
             color: $themeColor
             border-bottom: 1px solid $themeColor
+        .login-content
+          margin: 10px 0
+          padding: 40px 0
+          .input-wrapper
+            text-align: center
+            .ness
+              color: red
+            label
+              display: inline-block
+              margin: 10px 20px 0 0
+            .input
+              display: inline-block
+              text-align: left
+              height: 60px
+              vertical-align: top
+              width: 70%
+              input
+                width: 90%
+                height: 30px
+                border: 1px solid rgba(7, 17, 27, .1)
+                border-radius: 2px
+                outline: none
+                &:focus
+                  border: 1px solid $themeColor
+                  box-shadow: 0 0 3px $themeColor
+              .active
+                border: 1px solid red
+                box-shadow: 0 0 3px red
+                &:focus
+                  border: 1px solid red
+                  box-shadow: 0 0 3px red
+              #name-input-err, #password-input-err
+                margin: 5px 0
+                color: red
+          .btn-wrapper
+            margin: 75px 0
+            padding: 10px 0
+            text-align: center
+            border-top: 1px solid rgba(7, 17, 27, .1)
+            button
+              width: 80%
+              height: 35px
+              text-decoration: none
+              outline: none
+              font-size: 14px
+              color: #fff
+              background: $themeColor
+              border-radius: 5px
+        .regis-content
+          margin: 5px 0
+          padding: 5px 0
+          .input-wrapper
+            text-align: center
+            .ness
+              color: red
+            label
+              display: inline-block
+              margin: 10px 20px 0 0
+            #label-nick
+              margin-left: 12px
+            .input
+              display: inline-block
+              text-align: left
+              height: 55px
+              vertical-align: top
+              width: 70%
+              input
+                width: 90%
+                height: 30px
+                border: 1px solid rgba(7, 17, 27, .1)
+                border-radius: 2px
+                outline: none
+                &:focus
+                  border: 1px solid $themeColor
+                  box-shadow: 0 0 3px $themeColor
+              .active
+                border: 1px solid red
+                box-shadow: 0 0 3px red
+                &:focus
+                  border: 1px solid red
+                  box-shadow: 0 0 3px red
+              #name-input-err, #password-input-err
+                margin: 5px 0
+                color: red
+          .btn-wrapper
+            margin: 10px 0
+            padding: 10px 0
+            text-align: center
+            border-top: 1px solid rgba(7, 17, 27, .1)
+            button
+              width: 80%
+              height: 35px
+              text-decoration: none
+              outline: none
+              font-size: 14px
+              color: #fff
+              background: $themeColor
+              border-radius: 5px
 </style>
