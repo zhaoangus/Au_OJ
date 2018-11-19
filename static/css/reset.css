@@ -42,3 +42,6 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+input {
+	border: 1px solid rgba(7, 17, 27, .1);
+}

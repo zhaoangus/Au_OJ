@@ -14,24 +14,34 @@
         </router-link>
       </div>
       <div class="item-wrapper">
-        <span class="iconfont icon-diccuss">&#xe620;</span>
-        <span class="diccuss">Diccuss</span>
+        <router-link class="discuss" to="/discuss">
+          <span class="iconfont icon-problem">&#xe620;</span>
+          Discuss
+        </router-link>
       </div>
       <div class="item-wrapper">
-        <span class="iconfont icon-status">&#xe63b;</span>
-        <span class="status">Status</span>
+        <router-link class="status" to="/status">
+          <span class="iconfont icon-problem">&#xe63b;</span>
+          Status
+        </router-link>
       </div>
       <div class="item-wrapper">
-        <span class="iconfont icon-ranklist">&#xe721;</span>
-        <span class="ranklist">Ranklist</span>
+        <router-link class="ranklist" to="/ranklist">
+          <span class="iconfont icon-problem">&#xe721;</span>
+          Ranklist
+        </router-link>
       </div>
       <div class="item-wrapper">
-        <span class="iconfont icon-contest">&#xe62d;</span>
-        <span class="contest">Contest</span>
+        <router-link class="contest" to="/contest">
+          <span class="iconfont icon-problem">&#xe62d;</span>
+          Contest
+        </router-link>
       </div>
       <div class="item-wrapper">
-        <span class="iconfont icon-faq">&#xe605;</span>
-        <span class="faq">FAQ</span>
+        <router-link class="faq" to="/faq">
+          <span class="iconfont icon-problem">&#xe605;</span>
+          FAQ
+        </router-link>
       </div>
     </div>
     <div @click=triggerLogin class="login-nav">
@@ -192,12 +202,17 @@ export default {
         display: inline-block
         height: 60px
         line-height: 60px
-        padding: 0 20px
-        text-align: center
-        &:hover
-          color: $themeColor
-          cursor: pointer
-          border-bottom: 2px solid $themeColor
+        .home, .problem, .discuss, .status, .ranklist, .contest, .faq
+          display: inline-block
+          height: 60px
+          line-height: 60px
+          padding: 0 20px
+          text-align: center
+          color: #000
+          &:hover
+            color: $themeColor
+            cursor: pointer
+            border-bottom: 2px solid $themeColor
     .login-nav
       display: inline-block
       margin-right: 5%

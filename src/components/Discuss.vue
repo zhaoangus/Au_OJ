@@ -1,0 +1,133 @@
+<template>
+  <div class="discuss">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr align="left">
+            <th width="5%">Did</th>
+            <th width="55%">Title</th>
+            <th width="20%">Author</th>
+            <th width="20%">Update</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr align="left">
+            <td>34</td>
+            <td><span class="title">想唱一首歌</span></td>
+            <td><span class="author">18H392372214</span></td>
+            <td>14 days ago</td>
+          </tr>
+          <tr align="left">
+            <td>34</td>
+            <td><span class="title">想唱一首歌</span></td>
+            <td><span class="author">18H392372214</span></td>
+            <td>14 days ago</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="new-wrapper">
+      <div class="title">
+        Create New Thread
+      </div>
+      <div class="content-wrapper">
+        <form action="">
+          <div class="content-title">
+            <label for="">Title</label>
+            <input type="text">
+          </div>
+          <div class="content">
+            <label for="">Content</label>
+            <textarea name="" id="" cols="30" rows="10"></textarea>
+          </div>
+          <div class="btn">
+            <button>Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Discuss'
+}
+</script>
+
+<style lang="stylus" scoped>
+  @import '../common/css/base.styl'
+  .discuss
+    background: #f3f5f7
+    .table-wrapper
+      margin: 0 20px
+      padding: 30px 50px
+      background: #fff
+      table
+        width: 100%
+        font-size: 14px
+        color: $textColor
+        thead
+          font-weight: 700
+          border-bottom: 1px solid rgba(7, 17, 27, .1)
+          th
+            padding: 0 0 15px 0
+        tbody
+          td
+            padding: 15px 0 15px 0
+            border-bottom: 1px solid rgba(7, 17, 27, .1)
+          .title, .author
+            color: $themeColor
+            cursor: pointer
+    .new-wrapper
+      margin: 0 20px
+      padding: 0 50px
+      font-size: 14px
+      color: $textColor
+      background: #fff
+      .title
+        margin-bottom: 20px
+        font-weight: 700
+        font-size: 16px
+      .content-wrapper
+        margin: 10px 10px
+        .content-title
+          display: flex
+          label
+            flex-wrap: nowrap
+            margin: 8px 10px 0 20px
+          input
+            width: 100%
+            height: 25px
+            border: 1px solid rgba(7, 17, 27, .1)
+            border-radius: 5px
+            outline: none
+            &:hover
+              border: 1px solid $themeColor
+        .content
+          display: flex
+          margin: 20px 0
+          label
+            flex-wrap: nowrap
+            margin-top: 8px
+            margin-right: 10px
+          textarea
+            width: 100%
+            height: 60px
+            border: 1px solid rgba(7, 17, 27, .1)
+            border-radius: 5px
+            outline: none
+            &:hover
+              border: 1px solid $themeColor
+        .btn
+          margin: 10px 0 0 60px
+          button
+            width: 70px
+            height: 30px
+            border-radius: 5px
+            background: $themeColor
+            color: #fff
+            &:hover
+              cursor: pointer
+              opacity: 0.8
+</style>

@@ -6,6 +6,7 @@ import News from '@/components/News'
 import Descr from '@/components/Problem/Descr'
 import Sub from '@/components/Problem/Sub'
 import Stat from '@/components/Problem/Stat'
+import Discuss from '@/components/Discuss'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/problem/:id/stat',
       name: 'Stat',
       component: Stat
+    },
+    {
+      path: '/discuss',
+      name: 'Discuss',
+      component: Discuss
     }
   ]
 })
