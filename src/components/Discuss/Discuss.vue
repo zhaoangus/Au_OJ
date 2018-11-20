@@ -13,13 +13,13 @@
         <tbody>
           <tr align="left">
             <td>34</td>
-            <td><span class="title">想唱一首歌</span></td>
+            <td><router-link class="title" to="/discuss/34">一个问题</router-link></td>
             <td><span class="author">18H392372214</span></td>
             <td>14 days ago</td>
           </tr>
           <tr align="left">
             <td>34</td>
-            <td><span class="title">想唱一首歌</span></td>
+            <td><router-link class="title" to="/discuss/34">一个问题</router-link></td>
             <td><span class="author">18H392372214</span></td>
             <td>14 days ago</td>
           </tr>
@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  @import '../common/css/base.styl'
+  @import '../../common/css/base.styl'
   .discuss
     background: #f3f5f7
     .table-wrapper

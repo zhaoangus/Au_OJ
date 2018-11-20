@@ -216,12 +216,10 @@ export default {
     .login-nav
       display: inline-block
       margin-right: 5%
-      margin-top: 14px
+      margin-top: 15px
       height: 20px
       line-height: 20px
       padding: 5px 10px
-      border: 1px solid $themeColor
-      border-radius: 10px
       &:hover
         color: $themeColor
         cursor: pointer
@@ -246,7 +244,7 @@ export default {
         top: 30%
         left: 30%
         width: 40%
-        height: 70%
+        height: 50%
         background: #fff
         border-radius: 10px
         .login-label

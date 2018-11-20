@@ -6,7 +6,8 @@ import News from '@/components/News'
 import Descr from '@/components/Problem/Descr'
 import Sub from '@/components/Problem/Sub'
 import Stat from '@/components/Problem/Stat'
-import Discuss from '@/components/Discuss'
+import Discuss from '@/components/Discuss/Discuss'
+import DisDescr from '@/components/Discuss/DisDescr'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/discuss',
       name: 'Discuss',
       component: Discuss
+    },
+    {
+      path: '/discuss/:id',
+      name: 'DisDescr',
+      component: DisDescr
     }
   ]
 })
