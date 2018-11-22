@@ -8,6 +8,8 @@ import Sub from '@/components/Problem/Sub'
 import Stat from '@/components/Problem/Stat'
 import Discuss from '@/components/Discuss/Discuss'
 import DisDescr from '@/components/Discuss/DisDescr'
+import Info from '@/components/Info'
+import Status from '@/components/Status'
 
 Vue.use(Router)
 
@@ -52,6 +54,16 @@ export default new Router({
       path: '/discuss/:id',
       name: 'DisDescr',
       component: DisDescr
+    },
+    {
+      path: '/user/:id',
+      name: 'Info',
+      component: Info
+    },
+    {
+      path: '/status',
+      name: 'Status',
+      component: Status
     }
   ]
 })

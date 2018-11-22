@@ -14,13 +14,13 @@
           <tr align="left">
             <td>34</td>
             <td><router-link class="title" to="/discuss/34">一个问题</router-link></td>
-            <td><span class="author">18H392372214</span></td>
+            <td><router-link class="author" to="/user/18H">18H034160339</router-link></td>
             <td>14 days ago</td>
           </tr>
           <tr align="left">
             <td>34</td>
             <td><router-link class="title" to="/discuss/34">一个问题</router-link></td>
-            <td><span class="author">18H392372214</span></td>
+            <td><router-link class="author" to="/user/18H">18H034160339</router-link></td>
             <td>14 days ago</td>
           </tr>
         </tbody>
