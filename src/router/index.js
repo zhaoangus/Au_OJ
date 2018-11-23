@@ -10,6 +10,7 @@ import Discuss from '@/components/Discuss/Discuss'
 import DisDescr from '@/components/Discuss/DisDescr'
 import Info from '@/components/Info'
 import Status from '@/components/Status'
+import Ranklist from '@/components/Ranklist'
 
 Vue.use(Router)
 
@@ -64,6 +65,11 @@ export default new Router({
       path: '/status',
       name: 'Status',
       component: Status
+    },
+    {
+      path: '/ranklist',
+      name: 'Ranklist',
+      component: Ranklist
     }
   ]
 })

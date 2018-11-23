@@ -48,6 +48,7 @@ export default {
       padding: 0 0 0 5px
       width: 50px
       height: 30px
+      outline: none
       border: 1px solid rgba(7, 17, 27, .1)
       border-radius: 4px
       &:hover
