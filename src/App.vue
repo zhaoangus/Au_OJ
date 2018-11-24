@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import Header from '@/components/Header'
+import Header from '@/views/Header'
 import Split from '@/components/Split'
-import Footer from '@/components/Footer'
+import Footer from '@/views/Footer'
 export default {
   name: 'App',
   components: {

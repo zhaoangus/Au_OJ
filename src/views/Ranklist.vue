@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import JumpPage from './JumpPage'
+import JumpPage from '@/components/JumpPage'
 export default {
   name: 'Ranklist',
   components: {
