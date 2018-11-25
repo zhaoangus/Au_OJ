@@ -11,6 +11,7 @@ import DisDescr from '@/views/Discuss/DisDescr'
 import Info from '@/views/Info'
 import Status from '@/views/Status'
 import Ranklist from '@/views/Ranklist'
+import Contest from '@/views/Contest'
 
 Vue.use(Router)
 
@@ -70,6 +71,11 @@ export default new Router({
       path: '/ranklist',
       name: 'Ranklist',
       component: Ranklist
+    },
+    {
+      path: '/contest',
+      name: 'Contest',
+      component: Contest
     }
   ]
 })
