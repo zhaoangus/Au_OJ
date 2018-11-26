@@ -4,53 +4,18 @@
       <div class="news-left"></div>
       <div class="news">NewsList
         <ul >
-          <li class="news-list">
+          <li class="news-list" v-for="item in news" :key="item.nid">
             <span class="iconfont">&#xe6be;</span>
             <div class="news-info">
               <div class="info">
-                <router-link to="/news/1">2018年ACM实验室招新个人赛</router-link>
-              </div>
-              <div class="date">2018-10-09 20:37:29</div>
-            </div>
-          </li>
-          <li class="news-list">
-            <span class="iconfont">&#xe6be;</span>
-            <div class="news-info">
-              <div class="info">
-                <a href="#">2018年ACM实验室招新个人赛</a>
-              </div>
-              <div class="date">2018-10-09 20:37:29</div>
-            </div>
-          </li>
-          <li class="news-list">
-            <span class="iconfont">&#xe6be;</span>
-            <div class="news-info">
-              <div class="info">
-                <a href="#">2018年ACM实验室招新个人赛</a>
-              </div>
-              <div class="date">2018-10-09 20:37:29</div>
-            </div>
-          </li>
-          <li class="news-list">
-            <span class="iconfont">&#xe6be;</span>
-            <div class="news-info">
-              <div class="info">
-                <a href="#">2018年ACM实验室招新个人赛</a>
-              </div>
-              <div class="date">2018-10-09 20:37:29</div>
-            </div>
-          </li>
-          <li class="news-list">
-            <span class="iconfont">&#xe6be;</span>
-            <div class="news-info">
-              <div class="info">
-                <a href="#">2018年ACM实验室招新个人赛</a>
+                <router-link to="/newsdetail/1">{{item.title}}</router-link>
               </div>
               <div class="date">2018-10-09 20:37:29</div>
             </div>
           </li>
         </ul>
-        <JumpPage></JumpPage>
+        <JumpPage :news="news" :pageNum="pageNum" :currentPage="page"
+        @changePage="tochangePage"></JumpPage>
       </div>
       <div class="news-right"></div>
     </div>
@@ -58,11 +23,57 @@
 </template>
 
 <script>
+import axios from 'axios'
 import JumpPage from '@/components/JumpPage'
 export default {
   name: 'Layout',
   components: {
     JumpPage
+  },
+  data () {
+    return {
+      news: [],
+      page: 1,
+      pageSize: 2,
+      pageNum: 1
+    }
+  },
+  methods: {
+    getNewsList () {
+      this.page = parseInt(this.$route.query.page)
+      let param = {
+        page: this.page
+      }
+      axios.get('/news', {
+        params: param
+      }).then((res) => {
+        this.news = res.data.res
+        this.pageNum = res.data.pageNum
+      })
+    },
+    reload (currentpage) {
+      this.$router.push({
+        path: 'news',
+        query: {
+          page: currentpage
+        }
+      })
+    },
+    tochangePage (item) {
+      this.reload(item)
+      this.getNewsList()
+    }
+  },
+  mounted () {
+    this.getNewsList()
+    console.log(this.page)
+  },
+  watch: {
+    '$route' (to, from) {
+      if (to !== from) {
+        this.page = this.currentPage
+      }
+    }
   }
 }
 </script>
@@ -108,4 +119,37 @@ export default {
               a
                 cursor: pointer
                 color: $themeColor
+        .jumppage
+          font-size: 14px
+          height: 32px
+          .pages
+            display: inline-block
+            .front, .back, .page1, .page2
+              display: inline-block
+              vertical-align: middle
+              margin: 0 2px
+              width: 30px
+              height: 30px
+              line-height: 30px
+              text-align: center
+              border: 1px solid rgba(7, 17, 27, .1)
+              border-radius: 5px
+              &:hover
+                cursor: pointer
+                border: 1px solid $themeColor
+            .front
+              &:hover
+                cursor: not-allowed
+                border: 1px solid rgba(7, 17, 27, .1)
+          .input
+            display: inline-block
+            appearance: none
+            padding: 0 0 0 5px
+            width: 50px
+            height: 30px
+            outline: none
+            border: 1px solid rgba(7, 17, 27, .1)
+            border-radius: 4px
+            &:hover
+              border: 1px solid $themeColor
 </style>

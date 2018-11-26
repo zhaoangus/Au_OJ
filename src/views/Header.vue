@@ -2,7 +2,7 @@
   <div class="header">
     <div class="items">
       <div class="item-wrapper">
-        <router-link class="home" to="/">
+        <router-link class="home" to="/news">
           <span class="iconfont icon-home">&#xe621;</span>
           Home
         </router-link>

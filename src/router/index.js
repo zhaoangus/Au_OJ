@@ -18,7 +18,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/news',
       name: 'Layout',
       component: Layout
     },
@@ -28,7 +28,7 @@ export default new Router({
       component: Problem
     },
     {
-      path: '/news/:id',
+      path: '/newsdetail/:id',
       name: 'News',
       component: News
     },
