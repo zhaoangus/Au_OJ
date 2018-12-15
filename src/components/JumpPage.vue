@@ -35,7 +35,7 @@
       </div>
     </div>
     跳至
-    <input type="text" class="input" placeholder="1">
+    <input type="text" class="input" v-model="topage" @keyup.enter="toPage(topage)">
     页
   </div>
 </template>
@@ -45,13 +45,13 @@ export default {
   name: 'JumpPage',
   props: {
     news: Array,
-    pageNum: Number,
-    currentPage: Number
+    pageNum: Number
   },
   data () {
     return {
       pages: [],
-      active: Number
+      active: 1,
+      topage: 1
     }
   },
   watch: {
@@ -59,14 +59,13 @@ export default {
       this.init()
     }
   },
-  created () {
-    this.active = this.currentPage
-    console.log('j' + this.active)
+  mounted () {
+    this.active = this.$store.state.news.page
     this.init()
   },
   methods: {
     init () {
-      if (this.page < 6) {
+      if (this.pageNum < 6) {
         let pages = []
         for (let i = 1; i < this.pageNum + 1; i++) {
           pages.push(i)
@@ -106,6 +105,10 @@ export default {
       if (this.active === this.pageNum) return
       this.active++
       this.$emit('changePage', this.active)
+    },
+    toPage (item) {
+      this.active = item
+      this.$emit('changePage', item)
     }
   }
 }
@@ -128,6 +131,8 @@ export default {
         text-align: center
         border: 1px solid rgba(7, 17, 27, .1)
         border-radius: 5px
+        &:hover
+          cursor: pointer
       .active
         display: inline-block
         vertical-align: middle

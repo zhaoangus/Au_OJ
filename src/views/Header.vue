@@ -77,7 +77,7 @@
                 </div>
               </div>
               <div class="btn-wrapper">
-                <button class="button-control" type="submit">Submit</button>
+                <button @click="submit" class="button-control" type="submit">Submit</button>
               </div>
             </form>
           </div>
@@ -132,6 +132,7 @@
 </template>
 
 <script>
+// import axios from 'axios'
 import { validatorName, validatorPass } from '../util/validator'
 export default {
   name: 'Header',
@@ -168,6 +169,12 @@ export default {
       this.loginActive = false
       this.showLoginContent = false
       this.regisActive = true
+    },
+    submit () {
+      // axios.post('/users/login', {
+
+      // })
+      alert('submit')
     }
   },
   watch: {

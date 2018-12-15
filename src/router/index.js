@@ -28,9 +28,10 @@ export default new Router({
       component: Problem
     },
     {
-      path: '/newsdetail/:id',
-      name: 'News',
-      component: News
+      path: '/newsdetail/:nid',
+      name: 'Newsdetail',
+      component: News,
+      props: true
     },
     {
       path: '/problem/:id/descr',

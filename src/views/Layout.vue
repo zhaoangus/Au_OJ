@@ -8,13 +8,13 @@
             <span class="iconfont">&#xe6be;</span>
             <div class="news-info">
               <div class="info">
-                <router-link to="/newsdetail/1">{{item.title}}</router-link>
+                <router-link :to="{name:'Newsdetail',params:{nid:item.nid,num:num,pageNum}}">{{item.title}}</router-link>
               </div>
               <div class="date">2018-10-09 20:37:29</div>
             </div>
           </li>
         </ul>
-        <JumpPage :news="news" :pageNum="pageNum" :currentPage="page"
+        <JumpPage v-if="pageNum" :news="news" :pageNum="pageNum"
         @changePage="tochangePage"></JumpPage>
       </div>
       <div class="news-right"></div>
@@ -33,14 +33,16 @@ export default {
   data () {
     return {
       news: [],
-      page: 1,
-      pageSize: 2,
-      pageNum: 1
+      pageSize: 5,
+      pageNum: 0,
+      page: 0,
+      num: 0
     }
   },
   methods: {
     getNewsList () {
       this.page = parseInt(this.$route.query.page)
+      this.$store.commit('toCurrentPage', this.page)
       let param = {
         page: this.page
       }
@@ -48,7 +50,9 @@ export default {
         params: param
       }).then((res) => {
         this.news = res.data.res
+        this.num = res.data.num
         this.pageNum = res.data.pageNum
+        this.$store.commit('currentNews', this.news)
       })
     },
     reload (currentpage) {
@@ -58,23 +62,44 @@ export default {
           page: currentpage
         }
       })
+      let param = {
+        page: currentpage
+      }
+      axios.get('/news', {
+        params: param
+      }).then((res) => {
+        this.news = res.data.res
+        this.pageNum = res.data.pageNum
+        this.$store.commit('currentNews', this.news)
+      })
     },
     tochangePage (item) {
       this.reload(item)
       this.getNewsList()
     }
   },
-  mounted () {
+  created () {
     this.getNewsList()
-    console.log(this.page)
-  },
-  watch: {
-    '$route' (to, from) {
-      if (to !== from) {
-        this.page = this.currentPage
-      }
-    }
+    // console.log('mounted' + this.page)
   }
+  // 刷新保存状态问题
+  // created () {
+  //   if (sessionStorage.getItem('store')) {
+  //     this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('store'))))
+  //   }
+  //   window.addEventListener('beforeunload', () => {
+  //     sessionStorage.setItem('store', JSON.stringify(this.$store.state))
+  //   })
+  // }
+  // watch: {
+  //   '$route' (to, from) {
+  //     if (to !== from) {
+  //       const query = this.$route.query
+  //       this.page = parseInt(query.page) || 1
+  //       this.$store.commit('toCurrentPage', this.page)
+  //     }
+  //   }
+  // }
 }
 </script>
 
