@@ -8,7 +8,7 @@
             <span class="iconfont">&#xe6be;</span>
             <div class="news-info">
               <div class="info">
-                <router-link :to="{name:'Newsdetail',params:{nid:item.nid,num:num,pageNum}}">{{item.title}}</router-link>
+                <router-link :to="{name:'News',params:{nid:item.nid}}">{{item.title}}</router-link>
               </div>
               <div class="date">2018-10-09 20:37:29</div>
             </div>
@@ -52,7 +52,7 @@ export default {
         this.news = res.data.res
         this.num = res.data.num
         this.pageNum = res.data.pageNum
-        this.$store.commit('currentNews', this.news)
+        // this.$store.commit('pageNews', this.news)
       })
     },
     reload (currentpage) {
@@ -70,7 +70,8 @@ export default {
       }).then((res) => {
         this.news = res.data.res
         this.pageNum = res.data.pageNum
-        this.$store.commit('currentNews', this.news)
+        // this.$store.commit('pageNews', this.news)
+        // console.log(this.$store.state.news.content)
       })
     },
     tochangePage (item) {
@@ -82,15 +83,6 @@ export default {
     this.getNewsList()
     // console.log('mounted' + this.page)
   }
-  // 刷新保存状态问题
-  // created () {
-  //   if (sessionStorage.getItem('store')) {
-  //     this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('store'))))
-  //   }
-  //   window.addEventListener('beforeunload', () => {
-  //     sessionStorage.setItem('store', JSON.stringify(this.$store.state))
-  //   })
-  // }
   // watch: {
   //   '$route' (to, from) {
   //     if (to !== from) {

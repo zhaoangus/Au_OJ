@@ -1,8 +1,10 @@
 const store = {
   state: {
+    nid: 0,
+    title: '',
     page: 0,
     pageNum: 0,
-    content: []
+    content: {}
   },
   mutations: {
     toCurrentPage (state, page) {
@@ -13,11 +15,13 @@ const store = {
     }
   },
   getters: {
-    getTitleById: (state) => (id) => {
-      return state.content[id].title
-    },
-    getContentById: (state) => (id) => {
-      return state.content[id].content
+    getNews: (state) => {
+      return state.content
+    }
+  },
+  actions: {
+    getCurrentNews ({ commit }) {
+      commit('currentNews')
     }
   }
 }

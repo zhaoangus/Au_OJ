@@ -6,53 +6,50 @@
       </div>
     </div>
     <div class="content-wrapper">
-      <div v-if="title" class="title">
+      <div v-if="news" class="title">
         <!-- 2018年ACM实验室招新个人赛 -->
-        {{title}}
+        {{news.title}}
       </div>
       <div class="date">2018-10-09 20:37:29</div>
-      <div v-if="content" class="content">
+      <div v-if="news" class="content">
         <!-- 10月13日 周六 13:30 ~ 16:30
         在塞北305 面向新老生开展一次招新赛
         题目已经由小黑mua出好了，大家踊跃参加哦~
 
         2018ACM招新报名群：905458438 -->
-        {{content}}
+        {{news.content}}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 // import { mapGetters } from 'vuex'
 export default {
   name: 'News',
   props: {
-    num: Number,
-    nid: Number,
-    pageNum: Number
+    nid: 0
   },
   data () {
     return {
-      id: 0
+      id: 0,
+      pageNews: [],
+      currentNews: {}
     }
   },
   computed: {
-    title () {
-      return this.$store.getters.getTitleById(this.id)
-    },
-    content () {
-      return this.$store.getters.getContentById(this.id)
+    news () {
+      return this.$store.state.news.content
     }
-    // ...mapGetters({
-    //   title: `getTitleById(${this.id})`,
-    //   content: 'getContentById'
-    // })
   },
-  mounted () {
-    let page = parseInt((this.num - this.nid) / 5) + 1
-    let numHead = this.num - (page - 1) * 5
-    this.id = numHead - this.nid
+  created () {
+    let id = parseInt(this.$route.params.nid)
+    axios.get(`/news/${id}`).then((res) => {
+      this.currentNews = res.data.res
+      this.$store.commit('currentNews', this.currentNews)
+      console.log(this.$store.state.news.content)
+    })
   }
 }
 </script>

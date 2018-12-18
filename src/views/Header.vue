@@ -45,7 +45,17 @@
       </div>
     </div>
     <div @click=triggerLogin class="login-nav">
-      Login/Register
+      <span class="login-text-out" v-if="!ifLogin">
+        Login/Register
+      </span>
+      <span class="login-text-in" v-if="ifLogin" @click.stop>
+        <span class="text">
+          {{$store.state.user.name}}
+        </span>
+        <span class="logout" @click="logout">
+          logout
+        </span>
+      </span>
     </div>
     <transition name="fade">
       <div v-show="showLogin" class="login" @click=loginfade>
@@ -132,7 +142,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import { validatorName, validatorPass } from '../util/validator'
 export default {
   name: 'Header',
@@ -148,7 +158,8 @@ export default {
       input_check: '',
       name_err: '',
       pass_err: '',
-      check_pwd: true
+      check_pwd: true,
+      ifLogin: false
     }
   },
   methods: {
@@ -171,10 +182,38 @@ export default {
       this.regisActive = true
     },
     submit () {
-      // axios.post('/users/login', {
-
-      // })
-      alert('submit')
+      if (!this.name_err && !this.pass_err) {
+        axios.post('/users/login', {
+          userName: this.input_name,
+          userPwd: this.input_pass
+        }).then((res) => {
+          if (parseInt(res.data.status) === 0) {
+            this.ifLogin = true
+            this.showLogin = false
+            this.$store.commit('saveName', this.input_name)
+            this.$store.commit('savePwd', this.input_pass)
+          } else {
+            this.name_err = ''
+            this.pass_err = '用户名或密码错误'
+          }
+        })
+      }
+    },
+    checkLogin () {
+      axios.get('/users/check').then((res) => {
+        if (parseInt(res.data.status) === 0) {
+          this.ifLogin = true
+          this.$store.commit('saveName', res.data.result.userName)
+          this.$store.commit('savePwd', res.data.result.userPwd)
+        }
+      })
+    },
+    logout () {
+      axios.get('/users/logout').then((res) => {
+        this.ifLogin = false
+        this.$store.commit('saveName', '')
+        this.$store.commit('savePwd', '')
+      })
     }
   },
   watch: {
@@ -187,6 +226,9 @@ export default {
     input_check: function () {
       this.check_pwd = this.input_pass === this.input_check
     }
+  },
+  mounted () {
+    this.checkLogin()
   }
 }
 </script>
@@ -223,13 +265,23 @@ export default {
     .login-nav
       display: inline-block
       margin-right: 5%
-      margin-top: 15px
+      margin-top: 20px
       height: 20px
       line-height: 20px
-      padding: 5px 10px
-      &:hover
-        color: $themeColor
-        cursor: pointer
+      .login-text-out
+        &:hover
+          color: $themeColor
+          cursor: pointer
+      .login-text-in
+        .text
+          display: inline-block
+          margin-right: 20px
+          color: $themeColor
+          cursor: pointer
+        .logout
+          &:hover
+            color: $themeColor
+            cursor: pointer
     .login
       position: fixed
       z-index: 2

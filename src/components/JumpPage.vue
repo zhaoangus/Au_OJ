@@ -6,8 +6,8 @@
       :class="{active:active===(index+1)}" @click="changePage(item)">{{item}}</div>
       <div @click="next" class="next iconfont">&#xe601;</div>
     </div>
-    <div v-else>
-      <div class="pages" v-if="active<4">
+    <div v-else class="pages">
+      <div v-if="active<4">
         <div @click="prev" class="prev iconfont">&#xe600;</div>
         <div v-for="(item, index) in pages" class="item" :key="index"
         :class="{active:active===(index+1)}" @click="changePage(item)">{{item}}</div>
