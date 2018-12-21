@@ -45,6 +45,7 @@ export default {
   name: 'JumpPage',
   props: {
     news: Array,
+    problem: Array,
     pageNum: Number
   },
   data () {
@@ -60,7 +61,7 @@ export default {
     }
   },
   mounted () {
-    this.active = this.$store.state.news.page
+    this.active = this.$store.state.problem.page
     this.init()
   },
   methods: {

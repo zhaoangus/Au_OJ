@@ -1,6 +1,7 @@
 <template>
   <div class="problem">
-    <JumpPage class="jump"></JumpPage>
+    <JumpPage class="jump" v-if="pageNum" :problem="problem" :pageNum="pageNum"
+    @changePage="tochangePage"></JumpPage>
     <div class="search">
       <form action="">
         <div class="select">
@@ -28,20 +29,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="pid">751</td>
-            <td is="router-link" to="/problem/751/descr" class="title">A + B</td>
+          <tr v-for="item in problem" :key="item.pid">
+            <td class="pid">{{item.pid}}</td>
+            <td is="router-link" to="/problem/751/descr" class="title">{{item.title}}</td>
             <td class="ratio">84.21% (<span class="ratio-num">368</span> / <span class="ratio-num">437</span>)</td>
             <td class="tags">
-              <span class="tags-content">level1</span>
-            </td>
-          </tr>
-          <tr>
-            <td class="pid">751</td>
-            <td class="title">A + B</td>
-            <td class="ratio">84.21% (<span class="ratio-num">368</span> / <span class="ratio-num">437</span>)</td>
-            <td class="tags">
-              <span class="tags-content">level1</span>
+              <span class="tags-content">{{item.tags}}</span>
             </td>
           </tr>
         </tbody>
@@ -51,11 +44,61 @@
 </template>
 
 <script>
+import axios from 'axios'
 import JumpPage from '@/components/JumpPage'
 export default {
   name: 'Problem',
   components: {
     JumpPage
+  },
+  data () {
+    return {
+      problem: [],
+      pageSize: 2,
+      pageNum: 0,
+      page: 1,
+      num: 0
+    }
+  },
+  methods: {
+    getProblemList () {
+      this.page = parseInt(this.$route.query.page) || 1
+      this.$store.commit('toCurrentPage', this.page)
+      let param = {
+        page: this.page
+      }
+      axios.get('/problem', {
+        params: param
+      }).then((res) => {
+        this.problem = res.data.res
+        this.num = res.data.num
+        this.pageNum = res.data.pageNum
+      })
+    },
+    reload (currentpage) {
+      this.$router.push({
+        path: 'problem',
+        query: {
+          page: currentpage
+        }
+      })
+      let param = {
+        page: currentpage
+      }
+      axios.get('/problem', {
+        params: param
+      }).then((res) => {
+        this.problem = res.data.res
+        this.pageNum = res.data.pageNum
+      })
+    },
+    tochangePage (item) {
+      this.reload(item)
+      this.getProblemList()
+    }
+  },
+  created () {
+    this.getProblemList()
   }
 }
 </script>

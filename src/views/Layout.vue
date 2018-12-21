@@ -35,13 +35,13 @@ export default {
       news: [],
       pageSize: 5,
       pageNum: 0,
-      page: 0,
+      page: 1,
       num: 0
     }
   },
   methods: {
     getNewsList () {
-      this.page = parseInt(this.$route.query.page)
+      this.page = parseInt(this.$route.query.page) || 1
       this.$store.commit('toCurrentPage', this.page)
       let param = {
         page: this.page

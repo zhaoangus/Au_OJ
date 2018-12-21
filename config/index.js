@@ -19,7 +19,13 @@ module.exports = {
       },
       '/news/*': {
         target: 'http://localhost:3000'
-      }
+      },
+      '/users/*': {
+        target: 'http://localhost:3000'
+      },
+      '/problem': {
+        target: 'http://localhost:3000'
+      },
     },
 
     // Various Dev Server settings

@@ -131,7 +131,7 @@
                 </div>
               </div>
               <div class="btn-wrapper">
-                <button class="button-control" type="submit">Submit</button>
+                <button @click="register" class="button-control" type="submit">Submit</button>
               </div>
             </form>
           </div>
@@ -195,6 +195,26 @@ export default {
           } else {
             this.name_err = ''
             this.pass_err = '用户名或密码错误'
+          }
+        })
+      }
+    },
+    register () {
+      if (!this.name_err && !this.pass_err && this.check_pwd) {
+        console.log('ok')
+        axios.post('/users/register', {
+          userName: this.input_name,
+          nickName: this.input_nick || '',
+          userPwd: this.input_pass
+        }).then((res) => {
+          if (parseInt(res.data.status) === 0) {
+            this.showLogin = false
+            console.log(res.data.result)
+            alert('注册成功！')
+          } else if (parseInt(res.data.status) === 2) {
+            this.name_err = '用户名已被注册'
+          } else {
+            alert('注册失败!')
           }
         })
       }
