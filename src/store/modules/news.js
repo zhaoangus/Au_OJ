@@ -7,7 +7,7 @@ const store = {
     content: {}
   },
   mutations: {
-    toCurrentPage (state, page) {
+    toCurrentNewsPage (state, page) {
       state.page = page
     },
     currentNews (state, pyload) {

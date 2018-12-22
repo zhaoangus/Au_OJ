@@ -61,7 +61,14 @@ export default {
     }
   },
   mounted () {
-    this.active = this.$store.state.problem.page
+    let path = this.$route.path
+    switch (path) {
+      case '/news':
+        this.active = this.$store.state.news.page
+        break
+      case '/problem':
+        this.active = this.$store.state.problem.page
+    }
     this.init()
   },
   methods: {
@@ -108,7 +115,7 @@ export default {
       this.$emit('changePage', this.active)
     },
     toPage (item) {
-      this.active = item
+      this.active = parseInt(item)
       this.$emit('changePage', item)
     }
   }
@@ -134,6 +141,7 @@ export default {
         border-radius: 5px
         &:hover
           cursor: pointer
+          border: 1px solid $themeColor
       .active
         display: inline-block
         vertical-align: middle

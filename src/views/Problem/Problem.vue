@@ -31,7 +31,7 @@
         <tbody>
           <tr v-for="item in problem" :key="item.pid">
             <td class="pid">{{item.pid}}</td>
-            <td is="router-link" to="/problem/751/descr" class="title">{{item.title}}</td>
+            <td is="router-link" :to="{name:'Descr',params:{pid:item.pid}}" class="title">{{item.title}}</td>
             <td class="ratio">84.21% (<span class="ratio-num">368</span> / <span class="ratio-num">437</span>)</td>
             <td class="tags">
               <span class="tags-content">{{item.tags}}</span>
@@ -63,7 +63,7 @@ export default {
   methods: {
     getProblemList () {
       this.page = parseInt(this.$route.query.page) || 1
-      this.$store.commit('toCurrentPage', this.page)
+      this.$store.commit('toCurrentProblemPage', this.page)
       let param = {
         page: this.page
       }
@@ -85,6 +85,7 @@ export default {
       let param = {
         page: currentpage
       }
+      // this.$store.commit('toCurrentProblemPage', currentpage)
       axios.get('/problem', {
         params: param
       }).then((res) => {
@@ -94,7 +95,6 @@ export default {
     },
     tochangePage (item) {
       this.reload(item)
-      this.getProblemList()
     }
   },
   created () {

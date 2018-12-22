@@ -3,13 +3,13 @@
     <div class="nav-wrapper">
       <div class="nav">
         <div class="descr">
-          <router-link class="link-descr" to="/problem/751/descr">Description</router-link>
+          <router-link class="link-descr" :to="{name:'Descr',params:{pid}}">Description</router-link>
         </div>
         <div class="sub">
-          <router-link class="link-sub" to="/problem/751/sub">Submit</router-link>
+          <router-link class="link-sub" :to="{name:'Sub',params:{pid}}">Submit</router-link>
         </div>
         <div class="stat">
-          <router-link class="link-stat" to="/problem/751/stat">Statistics</router-link>
+          <router-link class="link-stat" :to="{name:'Stat',params:{pid}}">Statistics</router-link>
         </div>
       </div>
     </div>
@@ -75,11 +75,33 @@
 </template>
 
 <script>
+import axios from 'axios'
 import JumpPage from '@/components/JumpPage'
 export default {
   name: 'Stat',
   components: {
     JumpPage
+  },
+  data () {
+    return {
+      pid: 0,
+      currentProblem: {}
+    }
+  },
+  methods: {
+    getProblemStat () {
+      let id = parseInt(this.$route.params.pid)
+      console.log(id)
+      axios.get(`/problem/${id}/stat`).then((res) => {
+        this.currentProblem = res.data.res
+        // this.$store.commit('currentProblem', this.currentProblem)
+        // console.log(this.$store.state.problem.content)
+      })
+    }
+  },
+  mounted () {
+    this.getProblemStat()
+    this.pid = this.$route.params.pid
   }
 }
 </script>

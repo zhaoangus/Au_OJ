@@ -34,17 +34,17 @@ export default new Router({
       props: true
     },
     {
-      path: '/problem/:id/descr',
+      path: '/problem/:pid/descr',
       name: 'Descr',
       component: Descr
     },
     {
-      path: '/problem/:id/sub',
+      path: '/problem/:pid/sub',
       name: 'Sub',
       component: Sub
     },
     {
-      path: '/problem/:id/stat',
+      path: '/problem/:pid/stat',
       name: 'Stat',
       component: Stat
     },

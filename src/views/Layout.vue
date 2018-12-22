@@ -42,7 +42,7 @@ export default {
   methods: {
     getNewsList () {
       this.page = parseInt(this.$route.query.page) || 1
-      this.$store.commit('toCurrentPage', this.page)
+      this.$store.commit('toCurrentNewsPage', this.page)
       let param = {
         page: this.page
       }
@@ -65,6 +65,7 @@ export default {
       let param = {
         page: currentpage
       }
+      // this.$store.commit('toCurrentNewsPage', currentpage)
       axios.get('/news', {
         params: param
       }).then((res) => {
@@ -76,7 +77,6 @@ export default {
     },
     tochangePage (item) {
       this.reload(item)
-      this.getNewsList()
     }
   },
   created () {

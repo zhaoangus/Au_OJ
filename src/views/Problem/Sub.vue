@@ -3,19 +3,19 @@
     <div class="nav-wrapper">
       <div class="nav">
         <div class="descr">
-          <router-link class="link-descr" to="/problem/751/descr">Description</router-link>
+          <router-link class="link-descr" :to="{name:'Descr',params:{pid}}">Description</router-link>
         </div>
         <div class="sub">
-          <router-link class="link-sub" to="/problem/751/sub">Submit</router-link>
+          <router-link class="link-sub" :to="{name:'Sub',params:{pid}}">Submit</router-link>
         </div>
         <div class="stat">
-          <router-link class="link-stat" to="/problem/751/stat">Statistics</router-link>
+          <router-link class="link-stat" :to="{name:'Stat',params:{pid}}">Statistics</router-link>
         </div>
       </div>
     </div>
     <div class="content-wrapper">
       <div class="title-wrapper">
-        <div class="title">751: A + B</div>
+        <div class="title">{{currentProblem.pid}}: {{currentProblem.title}}</div>
       </div>
       <div class="lang">
         <div class="title">Language</div>
@@ -38,8 +38,30 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'Sub'
+  name: 'Sub',
+  data () {
+    return {
+      pid: 0,
+      currentProblem: {}
+    }
+  },
+  methods: {
+    getProblemSub () {
+      let id = parseInt(this.$route.params.pid)
+      console.log(id)
+      axios.get(`/problem/${id}/sub`).then((res) => {
+        this.currentProblem = res.data.res
+        // this.$store.commit('currentProblem', this.currentProblem)
+        // console.log(this.$store.state.problem.content)
+      })
+    }
+  },
+  mounted () {
+    this.getProblemSub()
+    this.pid = this.$route.params.pid
+  }
 }
 </script>
 
@@ -98,6 +120,7 @@ export default {
           text-align: center
           border: 1px solid rgba(7, 17, 27, .1)
           border-radius: 5px
+          outline: none
           &:focus
             border: 1px solid $themeColor
           option
