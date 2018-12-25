@@ -1,6 +1,8 @@
 <template>
   <div class="discuss">
     <div class="table-wrapper">
+      <JumpPage class="jump" v-if="pageNum" :discuss="discuss" :pageNum="pageNum"
+      @changePage="tochangePage"></JumpPage>
       <table>
         <thead>
           <tr align="left">
@@ -11,11 +13,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr align="left">
-            <td>34</td>
-            <td><router-link class="title" to="/discuss/34">一个问题</router-link></td>
-            <td><router-link class="author" to="/user/18H">18H034160339</router-link></td>
-            <td>14 days ago</td>
+          <tr align="left" v-for="item in discuss" :key="item.did">
+            <td>{{item.did}}</td>
+            <td><router-link class="title" :to="{name:'DisDescr',params:{did:item.did}}">{{item.title}}</router-link></td>
+            <td><router-link class="author" to="/user/18H">{{item.uid}}</router-link></td>
+            <td>{{item.update}}</td>
           </tr>
           <tr align="left">
             <td>34</td>
@@ -34,14 +36,14 @@
         <form action="">
           <div class="content-title">
             <label for="">Title</label>
-            <input type="text">
+            <input type="text" v-model="title">
           </div>
           <div class="content">
             <label for="">Content</label>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea cols="30" rows="10" v-model="content"></textarea>
           </div>
           <div class="btn">
-            <button>Submit</button>
+            <button @click="submit">Submit</button>
           </div>
         </form>
       </div>
@@ -50,8 +52,97 @@
 </template>
 
 <script>
+import axios from 'axios'
+import JumpPage from '@/components/JumpPage'
+import { dateDiff } from '@/util/time'
+// import X2JS from 'x2js'
 export default {
-  name: 'Discuss'
+  name: 'Discuss',
+  components: {
+    JumpPage
+  },
+  data () {
+    return {
+      discuss: [],
+      pageSize: 30,
+      pageNum: 0,
+      page: 1,
+      num: 0,
+      title: '',
+      content: ''
+    }
+  },
+  methods: {
+    // getList () {
+    //   var x2js = new X2JS()
+    //   axios.get('http://judge.u-aizu.ac.jp/onlinejudge/webservice/problem_list?volume=10')
+    //     .then((res) => {
+    //       let xml = res.data
+    //       let jsonObj = x2js.xml2js(xml)
+    //       console.log(jsonObj.problem_list.problem[0])
+    //     })
+    // },
+    getDiscussList () {
+      this.page = parseInt(this.$route.query.page) || 1
+      this.$store.commit('toCurrentDiscussPage', this.page)
+      let param = {
+        page: this.page
+      }
+      axios.get('/discuss', {
+        params: param
+      }).then((res) => {
+        this.discuss = res.data.res
+        this.num = res.data.num
+        this.pageNum = res.data.pageNum
+        this.timeUpNow(res.data.res)
+      })
+    },
+    reload (currentpage) {
+      this.$router.push({
+        path: 'discuss',
+        query: {
+          page: currentpage
+        }
+      })
+      let param = {
+        page: currentpage
+      }
+      // this.$store.commit('toCurrentProblemPage', currentpage)
+      axios.get('/discuss', {
+        params: param
+      }).then((res) => {
+        this.discuss = res.data.res
+        this.pageNum = res.data.pageNum
+      })
+    },
+    tochangePage (item) {
+      this.reload(item)
+    },
+    timeUpNow (discuss) {
+      discuss.forEach((item) => {
+        let diff = dateDiff(item.update)
+        item.update = diff
+      })
+    },
+    submit () {
+      axios.post('/discuss/submit', {
+        title: this.title,
+        content: this.content,
+        create: Date.now()
+      }).then((res) => {
+        console.log(res.data)
+        if (parseInt(res.data.status) === 0) {
+          alert('提交成功！')
+          this.$router.go(0)
+        } else {
+          console.log('error')
+        }
+      })
+    }
+  },
+  created () {
+    this.getDiscussList()
+  }
 }
 </script>
 
@@ -64,6 +155,7 @@ export default {
       padding: 30px 50px
       background: #fff
       table
+        margin: 20px 0
         width: 100%
         font-size: 14px
         color: $textColor
@@ -127,6 +219,7 @@ export default {
             border-radius: 5px
             background: $themeColor
             color: #fff
+            outline: none
             &:hover
               cursor: pointer
               opacity: 0.8

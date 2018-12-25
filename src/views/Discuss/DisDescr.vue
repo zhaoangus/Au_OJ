@@ -2,15 +2,16 @@
   <div class="disdescr">
     <div class="wrapper">
       <div class="title">
-        found '{' at file scope (missing function header?)
+        {{currentDiscuss.title}}
       </div>
-      <div class="discuss-wrapper">
+      <div class="discuss-wrapper" v-for="(item,index) in currentDiscuss.comments"
+      :key="index">
         <div class="author">
-          <span class="auth">1800201517</span>
-          <span class="time">a month ago</span>
+          <span class="auth">{{item.uid}}</span>
+          <span class="time">{{item.update}}</span>
         </div>
         <div class="discuss">
-          <code>found '{' at file scope (missing function header?)<br>dew dfew few fe</code>
+          <code>{{item.content}}</code>
         </div>
       </div>
       <div class="discuss-wrapper">
@@ -34,8 +35,31 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'DisDescr'
+  name: 'DisDescr',
+  data () {
+    return {
+      currentDiscuss: {}
+    }
+  },
+  computed: {
+
+  },
+  methods: {
+    getDiscussDetail () {
+      let id = parseInt(this.$route.params.did)
+      axios.get(`/discuss/${id}`).then((res) => {
+        this.currentDiscuss = res.data.res
+        console.log(this.currentDiscuss)
+      // this.$store.commit('currentNews', this.currentNews)
+      // console.log(this.$store.state.news.content)
+      })
+    }
+  },
+  created () {
+    this.getDiscussDetail()
+  }
 }
 </script>
 

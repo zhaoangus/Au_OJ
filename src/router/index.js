@@ -54,7 +54,7 @@ export default new Router({
       component: Discuss
     },
     {
-      path: '/discuss/:id',
+      path: '/discuss/:did',
       name: 'DisDescr',
       component: DisDescr
     },

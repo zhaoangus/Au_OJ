@@ -50,7 +50,6 @@ export default {
   methods: {
     getProblemSub () {
       let id = parseInt(this.$route.params.pid)
-      console.log(id)
       axios.get(`/problem/${id}/sub`).then((res) => {
         this.currentProblem = res.data.res
         // this.$store.commit('currentProblem', this.currentProblem)

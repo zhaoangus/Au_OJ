@@ -68,6 +68,10 @@ export default {
         break
       case '/problem':
         this.active = this.$store.state.problem.page
+        break
+      case '/discuss':
+        this.active = this.$store.state.discuss.page
+        break
     }
     this.init()
   },
