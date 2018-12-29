@@ -46,6 +46,8 @@ export default {
   props: {
     news: Array,
     problem: Array,
+    discuss: Array,
+    contest: Array,
     pageNum: Number
   },
   data () {
@@ -71,6 +73,9 @@ export default {
         break
       case '/discuss':
         this.active = this.$store.state.discuss.page
+        break
+      case '/contest':
+        this.active = this.$store.state.contest.page
         break
     }
     this.init()

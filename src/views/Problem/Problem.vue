@@ -37,6 +37,14 @@
               <span class="tags-content">{{item.tags}}</span>
             </td>
           </tr>
+          <!-- <tr v-for="item in problem" :key="item.id">
+            <td class="pid">{{item.id}}</td>
+            <td is="router-link" :to="{name:'Descr',params:{pid:item.id}}" class="title">{{item.name}}</td>
+            <td class="ratio">84.21% (<span class="ratio-num">368</span> / <span class="ratio-num">437</span>)</td>
+            <td class="tags">
+              <span class="tags-content">{{item.id}}</span>
+            </td>
+          </tr> -->
         </tbody>
       </table>
     </div>
@@ -46,6 +54,7 @@
 <script>
 import axios from 'axios'
 import JumpPage from '@/components/JumpPage'
+// import X2JS from 'x2js'
 export default {
   name: 'Problem',
   components: {
@@ -61,6 +70,16 @@ export default {
     }
   },
   methods: {
+    // getList () {
+    //   var x2js = new X2JS()
+    //   axios.get('http://judge.u-aizu.ac.jp/onlinejudge/webservice/problem_list?volume=10')
+    //     .then((res) => {
+    //       let xml = res.data
+    //       let jsonObj = x2js.xml2js(xml)
+    //       this.problem = jsonObj.problem_list.problem
+    //       console.log(jsonObj.problem_list.problem)
+    //     })
+    // },
     getProblemList () {
       this.page = parseInt(this.$route.query.page) || 1
       this.$store.commit('toCurrentProblemPage', this.page)
@@ -99,6 +118,7 @@ export default {
   },
   created () {
     this.getProblemList()
+    // this.getList()
   }
 }
 </script>

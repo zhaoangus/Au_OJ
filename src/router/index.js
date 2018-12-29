@@ -11,7 +11,13 @@ import DisDescr from '@/views/Discuss/DisDescr'
 import Info from '@/views/Info'
 import Status from '@/views/Status'
 import Ranklist from '@/views/Ranklist'
-import Contest from '@/views/Contest'
+import Contest from '@/views/contest/Contest'
+import ContestDetail from '@/views/contest/ContestDetail'
+import DetailOverview from '@/views/contest/DetailOverview'
+import DetailProblem from '@/views/contest/DetailProblem'
+import DetailSubmit from '@/views/contest/DetailSubmit'
+import DetailStatus from '@/views/contest/DetailStatus'
+import DetailRanklist from '@/views/contest/DetailRanklist'
 
 Vue.use(Router)
 
@@ -77,6 +83,38 @@ export default new Router({
       path: '/contest',
       name: 'Contest',
       component: Contest
+    },
+    {
+      path: '/contest/:cid',
+      // name: 'ContestDetail',
+      component: ContestDetail,
+      children: [
+        {
+          path: '',
+          name: 'DetailOverview',
+          component: DetailOverview
+        },
+        {
+          path: 'problem/:id',
+          name: 'DetailProblem',
+          component: DetailProblem
+        },
+        {
+          path: 'problem/:id/submit',
+          name: 'DetailSubmit',
+          component: DetailSubmit
+        },
+        {
+          path: 'status',
+          name: 'DetailStatus',
+          component: DetailStatus
+        },
+        {
+          path: 'ranklist',
+          name: 'DetailRanklist',
+          component: DetailRanklist
+        }
+      ]
     }
   ]
 })

@@ -8,26 +8,17 @@
       :key="index">
         <div class="author">
           <span class="auth">{{item.uid}}</span>
-          <span class="time">{{item.update}}</span>
+          <span class="time">{{item.create}}</span>
         </div>
         <div class="discuss">
           <code>{{item.content}}</code>
         </div>
       </div>
-      <div class="discuss-wrapper">
-        <div class="author">
-          <span class="auth">1800201517</span>
-          <span class="time">a month ago</span>
-        </div>
-        <div class="discuss">
-          <code>syntax error : '}'</code>
-        </div>
-      </div>
       <div class="add-discuss">
-        <textarea></textarea>
+        <textarea v-model="reply"></textarea>
       </div>
       <div class="add-btn">
-        <button>Add a reply</button>
+        <button @click="addReply">Add a reply</button>
         <div class="info">You will receive notifications through your email, if anyone replies</div>
       </div>
     </div>
@@ -36,24 +27,47 @@
 
 <script>
 import axios from 'axios'
+import { dateDiff } from '@/util/time'
 export default {
   name: 'DisDescr',
   data () {
     return {
-      currentDiscuss: {}
+      currentDiscuss: {},
+      reply: ''
     }
   },
-  computed: {
-
-  },
+  // computed: {
+  //   currentDiscuss () {
+  //     return this.$store.state.discuss.content
+  //   }
+  // },
   methods: {
     getDiscussDetail () {
       let id = parseInt(this.$route.params.did)
       axios.get(`/discuss/${id}`).then((res) => {
         this.currentDiscuss = res.data.res
+        this.timeUpNow(res.data.res.comments)
+        // this.$store.commit('currentDiscuss', res.data.res)
         console.log(this.currentDiscuss)
-      // this.$store.commit('currentNews', this.currentNews)
-      // console.log(this.$store.state.news.content)
+      })
+    },
+    addReply () {
+      let id = parseInt(this.$route.params.did)
+      let time = Date.now()
+      axios.post(`/discuss/${id}`, {
+        reply: this.reply,
+        create: time
+      }).then((res) => {
+        this.currentDiscuss = res.data.result.update
+        // this.$store.commit('currentDiscuss', res.data.result.update)
+        this.$router.go(0)
+        // console.log(this.currentDiscuss)
+      })
+    },
+    timeUpNow (discuss) {
+      discuss.forEach((item) => {
+        let diff = dateDiff(item.create)
+        item.create = diff
       })
     }
   },
@@ -108,6 +122,7 @@ export default {
           background: $themeColor
           color: #fff
           border-radius: 5px
+          outline: none
           &:hover
             cursor: pointer
             opacity: 0.8

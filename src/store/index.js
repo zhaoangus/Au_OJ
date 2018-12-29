@@ -5,6 +5,7 @@ import news from './modules/news'
 import user from './modules/user'
 import problem from './modules/problem'
 import discuss from './modules/discuss'
+import contest from './modules/contest'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     news,
     user,
     problem,
-    discuss
+    discuss,
+    contest
   }
   // plugins: [createPersistedState()]
 })

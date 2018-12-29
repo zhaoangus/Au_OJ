@@ -28,7 +28,13 @@ module.exports = {
       },
       '/discuss': {
         target: 'http://localhost:3000'
-      }
+      },
+      '/discuss/*': {
+        target: 'http://localhost:3000'
+      },
+      '/contest': {
+        target: 'http://localhost:3000'
+      },
     },
 
     // Various Dev Server settings

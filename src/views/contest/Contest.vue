@@ -13,11 +13,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr align="left">
-              <td>120</td>
-              <td><router-link id="title" to="/">新生练习题汇总一（基本输入输出）</router-link></td>
-              <td id="status">Runing</td>
-              <td>2018-11-12 00:00:00</td>
+            <tr align="left" v-for="item in contest" :key="item.cid">
+              <td>{{item.cid}}</td>
+              <td><router-link id="title" to="/contest/11">{{item.title}}</router-link></td>
+              <td id="status">{{item.status}}</td>
+              <td>{{item.start}}</td>
               <td class="type">Public</td>
             </tr>
             <tr align="left">
@@ -30,27 +30,78 @@
           </tbody>
         </table>
       </div>
-      <JumpPage></JumpPage>
+      <JumpPage class="jump" v-if="pageNum" :contest="contest" :pageNum="pageNum"
+      @changePage="tochangePage"></JumpPage>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 import JumpPage from '@/components/JumpPage'
 export default {
   name: 'Contest',
   components: {
     JumpPage
+  },
+  data () {
+    return {
+      contest: [],
+      pageSize: 20,
+      pageNum: 0,
+      page: 1,
+      num: 0
+    }
+  },
+  methods: {
+    getContestList () {
+      this.page = parseInt(this.$route.query.page) || 1
+      this.$store.commit('toCurrentContestPage', this.page)
+      let param = {
+        page: this.page
+      }
+      axios.get('/contest', {
+        params: param
+      }).then((res) => {
+        this.contest = res.data.res
+        this.num = res.data.num
+        this.pageNum = res.data.pageNum
+      })
+    },
+    reload (currentpage) {
+      this.$router.push({
+        path: 'contest',
+        query: {
+          page: currentpage
+        }
+      })
+      let param = {
+        page: currentpage
+      }
+      // this.$store.commit('toCurrentProblemPage', currentpage)
+      axios.get('/contest', {
+        params: param
+      }).then((res) => {
+        this.contest = res.data.res
+        this.pageNum = res.data.pageNum
+      })
+    },
+    tochangePage (item) {
+      this.reload(item)
+    }
+  },
+  created () {
+    this.getContestList()
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-  @import '../common/css/base.styl'
+  @import '../../common/css/base.styl'
   .wrapper
     position: relative
     margin: 20px 40px
-    padding: 20px 40px
+    padding: 0 40px
     font-size: 14px
     color: $textColor
     .table-wrapper

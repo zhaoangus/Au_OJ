@@ -55,7 +55,6 @@
 import axios from 'axios'
 import JumpPage from '@/components/JumpPage'
 import { dateDiff } from '@/util/time'
-// import X2JS from 'x2js'
 export default {
   name: 'Discuss',
   components: {
@@ -72,16 +71,12 @@ export default {
       content: ''
     }
   },
+  // computed: {
+  //   discuss () {
+  //     return this.$store.state.discuss.content
+  //   }
+  // },
   methods: {
-    // getList () {
-    //   var x2js = new X2JS()
-    //   axios.get('http://judge.u-aizu.ac.jp/onlinejudge/webservice/problem_list?volume=10')
-    //     .then((res) => {
-    //       let xml = res.data
-    //       let jsonObj = x2js.xml2js(xml)
-    //       console.log(jsonObj.problem_list.problem[0])
-    //     })
-    // },
     getDiscussList () {
       this.page = parseInt(this.$route.query.page) || 1
       this.$store.commit('toCurrentDiscussPage', this.page)
@@ -95,6 +90,7 @@ export default {
         this.num = res.data.num
         this.pageNum = res.data.pageNum
         this.timeUpNow(res.data.res)
+        // this.$store.commit('currentDiscuss', res.data.res)
       })
     },
     reload (currentpage) {
@@ -107,12 +103,13 @@ export default {
       let param = {
         page: currentpage
       }
-      // this.$store.commit('toCurrentProblemPage', currentpage)
+      this.$store.commit('toCurrentProblemPage', currentpage)
       axios.get('/discuss', {
         params: param
       }).then((res) => {
         this.discuss = res.data.res
         this.pageNum = res.data.pageNum
+        this.timeUpNow(res.data.res)
       })
     },
     tochangePage (item) {
@@ -133,6 +130,7 @@ export default {
         console.log(res.data)
         if (parseInt(res.data.status) === 0) {
           alert('提交成功！')
+          // this.$forceUpdate()
           this.$router.go(0)
         } else {
           console.log('error')
