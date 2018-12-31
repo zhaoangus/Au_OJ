@@ -1,43 +1,34 @@
 <template>
   <div class="problem">
     <div class="order-wrapper">
-      <div class="order">1</div>
-      <div class="order">2</div>
+      <div class="order" :class="{active: item.id===pid}" @click="toProblem" v-for="item in problemList" :key="item.id">{{item.id}}</div>
     </div>
     <div class="content-wrapper">
       <div class="title-wrapper">
-        <div class="title">1: 母牛的故事</div>
+        <div class="title">{{currentProblem.id}}: {{currentProblem.title}}</div>
         <div class="time-limit">
-          Time Limit: 2000MS  Memory Limit: 64000KB
+          Time Limit: {{currentProblem.time}}MS  Memory Limit: {{currentProblem.memory}}KB
         </div>
       </div>
       <div class="desc-wrapper">
         <div class="title">Description</div>
-        <div class="content">有一头母牛，它每年年初生一头小母牛。每头小母牛从第四个年头开始，每年年初也生一头小母牛。请编程实现在第n年的时候，共有多少头母牛(结果对10000取余)？</div>
+        <div class="content">{{currentProblem.description}}</div>
       </div>
       <div class="input-wrapper">
         <div class="title">Input</div>
-        <div class="content">输入数据由多个测试实例组成，每个测试实例占一行，包括一个整数n{{range}}，n的含义如题目中描述。 n=0表示输入数据的结束，不做处理。</div>
+        <div class="content">{{currentProblem.input}}</div>
       </div>
       <div class="output-wrapper">
         <div class="title">Output</div>
-        <div class="content">对于每个测试实例，输出在第n年的时候母牛的数量取模10000。 每个输出占一行。</div>
+        <div class="content">{{currentProblem.output}}</div>
       </div>
-      <!-- <div class="samin-wrapper">
-        <div class="title">Sample Input <span title="copy" class="iconfont">&#xe800;</span></div>
-        <div class="content" v-for="(item,index) in inputContent" :key="index"><code>{{item}}</code></div>
-      </div>
-      <div class="samout-wrapper">
-        <div class="title">Sample Output <span title="copy" class="iconfont">&#xe800;</span></div>
-        <div class="content" v-for="(item,index) in outputContent" :key="index"><code>{{item}}</code></div>
-      </div> -->
       <div class="samin-wrapper">
         <div class="title">Sample Input <span title="copy" class="iconfont">&#xe800;</span></div>
-        <div class="content"><code>1 2 3</code></div>
+        <div class="content"><code>{{currentProblem.in}}</code></div>
       </div>
       <div class="samout-wrapper">
         <div class="title">Sample Output <span title="copy" class="iconfont">&#xe800;</span></div>
-        <div class="content"><code>1 2 3</code></div>
+        <div class="content"><code>{{currentProblem.out}}</code></div>
       </div>
       <div class="submit">
         <button>
@@ -50,12 +41,38 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'DetailProblem',
   data () {
     return {
-      range: '(1 <= n <= 2000000000)'
+      currentProblem: {},
+      problemList: [],
+      cid: 0,
+      pid: 0
     }
+  },
+  methods: {
+    getProblemDetail () {
+      this.cid = parseInt(this.$route.params.cid)
+      this.pid = parseInt(this.$route.params.id)
+      axios.get(`/contest/${this.cid}/problem/${this.pid}`).then((res) => {
+        this.problemList = res.data.res.problemList
+        this.problemList.forEach((item) => {
+          if (parseInt(item.id) === this.pid) {
+            this.currentProblem = item
+          }
+        })
+      })
+    },
+    toProblem (e) {
+      let pid = parseInt(e.target.innerHTML)
+      this.$router.push({name: 'DetailProblem', params: {cid: this.cid, id: pid}})
+      this.getProblemDetail()
+    }
+  },
+  created () {
+    this.getProblemDetail()
   }
 }
 </script>
@@ -67,15 +84,19 @@ export default {
       marhin: 10px 0
       .order
         display: inline-block
-        margin: 0 2px
+        margin: 0 5px
         width: 20px
         height: 20px
         padding: 5px
         text-align: center
         line-height: 20px
-        background: $themeColor
-        border: 1px solid $themeColor
+        border: 1px solid rgba(7, 17, 27, .1)
         border-radius: 5px
+        color: $textColor
+        &:hover
+          cursor: pointer
+      .active
+        background: $themeColor
         color: #fff
     .content-wrapper
       margin: 10px 0

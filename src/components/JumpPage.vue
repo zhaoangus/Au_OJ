@@ -50,6 +50,11 @@ export default {
     contest: Array,
     pageNum: Number
   },
+  // computed: {
+  //   pageNum () {
+  //     return this.$store.state.problem.pageNum
+  //   }
+  // },
   data () {
     return {
       pages: [],

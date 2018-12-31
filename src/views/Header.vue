@@ -192,6 +192,7 @@ export default {
             this.showLogin = false
             this.$store.commit('saveName', this.input_name)
             this.$store.commit('savePwd', this.input_pass)
+            this.$router.go(0)
           } else {
             this.name_err = ''
             this.pass_err = '用户名或密码错误'
@@ -233,6 +234,7 @@ export default {
         this.ifLogin = false
         this.$store.commit('saveName', '')
         this.$store.commit('savePwd', '')
+        this.$router.go(0)
       })
     }
   },

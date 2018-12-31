@@ -12,10 +12,10 @@
           </select>
         </div>
         <div class="search-input">
-          <input type="text" placeholder="Please input">
+          <input type="text" placeholder="Please input" v-model="search">
           <span class="iconfont">&#xe631;</span>
         </div>
-        <button class="btn">Search</button>
+        <button @click="searchItem" class="btn">Search</button>
       </form>
     </div>
     <div class="list-wrapper">
@@ -63,10 +63,11 @@ export default {
   data () {
     return {
       problem: [],
-      pageSize: 2,
+      pageSize: 10,
       pageNum: 0,
       page: 1,
-      num: 0
+      num: 0,
+      search: ''
     }
   },
   methods: {
@@ -92,6 +93,7 @@ export default {
         this.problem = res.data.res
         this.num = res.data.num
         this.pageNum = res.data.pageNum
+        this.$store.commit('currentPagenum', res.data.pageNum)
       })
     },
     reload (currentpage) {
@@ -110,10 +112,23 @@ export default {
       }).then((res) => {
         this.problem = res.data.res
         this.pageNum = res.data.pageNum
+        this.$store.commit('currentPagenum', res.data.pageNum)
       })
     },
     tochangePage (item) {
       this.reload(item)
+    },
+    searchItem () {
+      let id = parseInt(this.search)
+      if (typeof (id) !== 'number') {
+        alert('请输入数字')
+      }
+      axios.get(`/problem/${id}`).then((res) => {
+        this.problem = res.data.res
+        this.pageNum = res.data.res.length
+        this.$store.commit('currentPagenum', res.data.res.length)
+        console.log(this.$store.state.problem.pageNum)
+      })
     }
   },
   created () {
@@ -171,7 +186,8 @@ export default {
           height: 30px
           border: 1px solid rgba(7, 17, 27, .1)
           border-radius: 5px
-          &:hover
+          outline: none
+          &:hover, &:focus
             border: 1px solid $themeColor
         .iconfont
           position: absolute
@@ -185,6 +201,9 @@ export default {
         background: $themeColor
         border-radius: 5px
         border: none
+        outline: none
+        &:hover
+          cursor: pointer
     .list-wrapper
       margin: 20px 0
       table

@@ -15,16 +15,9 @@
           <tbody>
             <tr align="left" v-for="item in contest" :key="item.cid">
               <td>{{item.cid}}</td>
-              <td><router-link id="title" to="/contest/11">{{item.title}}</router-link></td>
+              <td><router-link id="title" :to="{name:'DetailOverview', params:{cid:item.cid}}">{{item.title}}</router-link></td>
               <td id="status">{{item.status}}</td>
               <td>{{item.start}}</td>
-              <td class="type">Public</td>
-            </tr>
-            <tr align="left">
-              <td>120</td>
-              <td><router-link id="title" to="/">新生练习题汇总一（基本输入输出）</router-link></td>
-              <td id="status">Runing</td>
-              <td>2018-11-12 00:00:00</td>
               <td class="type">Public</td>
             </tr>
           </tbody>

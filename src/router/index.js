@@ -21,7 +21,7 @@ import DetailRanklist from '@/views/contest/DetailRanklist'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/news',
@@ -88,6 +88,7 @@ export default new Router({
       path: '/contest/:cid',
       // name: 'ContestDetail',
       component: ContestDetail,
+      requireAuth: true,
       children: [
         {
           path: '',
@@ -118,3 +119,13 @@ export default new Router({
     }
   ]
 })
+
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(res => res.meta.requireAuth)) {
+//     if (localStorage.getItem('userName')) {
+//       next()
+//     }
+//   }
+// })
+
+export default router

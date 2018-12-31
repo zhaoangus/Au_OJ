@@ -18,7 +18,7 @@
         <textarea v-model="reply"></textarea>
       </div>
       <div class="add-btn">
-        <button @click="addReply">Add a reply</button>
+        <button :class="{login:isLogin}" :disabled="isDisabled" @click="addReply">Add a reply</button>
         <div class="info">You will receive notifications through your email, if anyone replies</div>
       </div>
     </div>
@@ -33,45 +33,58 @@ export default {
   data () {
     return {
       currentDiscuss: {},
-      reply: ''
+      reply: '',
+      isLogin: false,
+      isDisabled: true
     }
   },
-  // computed: {
-  //   currentDiscuss () {
-  //     return this.$store.state.discuss.content
-  //   }
-  // },
   methods: {
     getDiscussDetail () {
       let id = parseInt(this.$route.params.did)
       axios.get(`/discuss/${id}`).then((res) => {
         this.currentDiscuss = res.data.res
         this.timeUpNow(res.data.res.comments)
-        // this.$store.commit('currentDiscuss', res.data.res)
-        console.log(this.currentDiscuss)
       })
     },
     addReply () {
       let id = parseInt(this.$route.params.did)
       let time = Date.now()
-      axios.post(`/discuss/${id}`, {
-        reply: this.reply,
-        create: time
-      }).then((res) => {
-        this.currentDiscuss = res.data.result.update
-        // this.$store.commit('currentDiscuss', res.data.result.update)
-        this.$router.go(0)
-        // console.log(this.currentDiscuss)
-      })
+      if (this.reply) {
+        axios.post(`/discuss/${id}`, {
+          reply: this.reply,
+          create: time
+        }).then((res) => {
+          this.currentDiscuss.comments.push({uid: 1, content: this.reply, create: time})
+          this.timeUpNow(this.currentDiscuss.comments)
+          this.reply = ''
+        })
+      } else {
+        alert('内容不能为空！')
+      }
     },
     timeUpNow (discuss) {
       discuss.forEach((item) => {
         let diff = dateDiff(item.create)
         item.create = diff
       })
+    },
+    ifLogin () {
+      axios.get('/users/check').then((res) => {
+        console.log(res.data.status)
+        if (parseInt(res.data.status) === 0) {
+          this.isLogin = true
+          this.isDisabled = false
+          this.$store.commit('saveName', res.data.result.userName)
+          this.$store.commit('savePwd', res.data.result.userPwd)
+        } else {
+          this.isLogin = false
+          this.isDisabled = true
+        }
+      })
     }
   },
   created () {
+    this.ifLogin()
     this.getDiscussDetail()
   }
 }
@@ -119,10 +132,14 @@ export default {
         button
           width: 90px
           height: 30px
-          background: $themeColor
-          color: #fff
+          background: #f7f7f7
+          color: #bbbec4
+          border-color: #dddee1
           border-radius: 5px
           outline: none
+        .login
+          background: $themeColor
+          color: #fff
           &:hover
             cursor: pointer
             opacity: 0.8

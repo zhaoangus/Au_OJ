@@ -29,9 +29,9 @@
         <textarea placeholder="Paste your code here"></textarea>
       </div>
       <div class="btn">
-        <button class="first">Submit</button>
-        <button>Reset</button>
-        Please Log in First
+        <button :class="{login:isLogin}" :disabled="isDisabled" class="submit-btn">Submit</button>
+        <button class="reset-btn">Reset</button>
+        <span v-if="!isLogin">Please Log in First</span>
       </div>
     </div>
   </div>
@@ -44,7 +44,9 @@ export default {
   data () {
     return {
       pid: 0,
-      currentProblem: {}
+      currentProblem: {},
+      isLogin: false,
+      isDisabled: true
     }
   },
   methods: {
@@ -55,9 +57,24 @@ export default {
         // this.$store.commit('currentProblem', this.currentProblem)
         // console.log(this.$store.state.problem.content)
       })
+    },
+    ifLogin () {
+      axios.get('/users/check').then((res) => {
+        console.log(res.data.status)
+        if (parseInt(res.data.status) === 0) {
+          this.isLogin = true
+          this.isDisabled = false
+          this.$store.commit('saveName', res.data.result.userName)
+          this.$store.commit('savePwd', res.data.result.userPwd)
+        } else {
+          this.isLogin = false
+          this.isDisabled = true
+        }
+      })
     }
   },
   mounted () {
+    this.ifLogin()
     this.getProblemSub()
     this.pid = this.$route.params.pid
   }
@@ -138,14 +155,31 @@ export default {
       .btn
         margin: 20px 0
         font-size: 14px
-        button
+        .submit-btn
+          margin-right: 10px
           padding: 10px 15px
           outline: none
           border-radius: 5px
           border: 1px solid rgba(7, 17, 27, .1)
+          background: #f7f7f7
+          color: #bbbec4
+          border-color: #dddee1
+        .login
+          background: #fff
+          color: $themeColor
           &:hover
             color: $themeColor
             border: 1px solid $themeColor
-        .first
-          margin-right: 10px
+            cursor: pointer
+        .reset-btn
+          padding: 10px 15px
+          outline: none
+          border-radius: 5px
+          border: 1px solid rgba(7, 17, 27, .1)
+          background: #fff
+          color: $themeColor
+          &:hover
+            color: $themeColor
+            border: 1px solid $themeColor
+            cursor: pointer
 </style>

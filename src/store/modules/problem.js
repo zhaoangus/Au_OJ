@@ -12,6 +12,9 @@ const store = {
     },
     currentProblem (state, pyload) {
       state.content = pyload
+    },
+    currentPagenum (state, pyload) {
+      state.pageNum = pyload
     }
   },
   getters: {

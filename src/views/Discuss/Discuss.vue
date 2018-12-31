@@ -19,12 +19,6 @@
             <td><router-link class="author" to="/user/18H">{{item.uid}}</router-link></td>
             <td>{{item.update}}</td>
           </tr>
-          <tr align="left">
-            <td>34</td>
-            <td><router-link class="title" to="/discuss/34">一个问题</router-link></td>
-            <td><router-link class="author" to="/user/18H">18H034160339</router-link></td>
-            <td>14 days ago</td>
-          </tr>
         </tbody>
       </table>
     </div>
@@ -43,7 +37,8 @@
             <textarea cols="30" rows="10" v-model="content"></textarea>
           </div>
           <div class="btn">
-            <button @click="submit">Submit</button>
+            <button :class="{login:isLogin}" :disabled="isDisabled" @click="submit">Submit</button>
+            <span class="ifLogin" v-if="!isLogin">Login to reply</span>
           </div>
         </form>
       </div>
@@ -68,7 +63,9 @@ export default {
       page: 1,
       num: 0,
       title: '',
-      content: ''
+      content: '',
+      isLogin: false,
+      isDisabled: true
     }
   },
   // computed: {
@@ -122,23 +119,42 @@ export default {
       })
     },
     submit () {
-      axios.post('/discuss/submit', {
-        title: this.title,
-        content: this.content,
-        create: Date.now()
-      }).then((res) => {
-        console.log(res.data)
+      if (!this.title) {
+        alert('标题不能为空')
+      } else {
+        axios.post('/discuss/submit', {
+          title: this.title,
+          content: this.content,
+          create: Date.now()
+        }).then((res) => {
+          console.log(res.data)
+          if (parseInt(res.data.status) === 0) {
+            alert('提交成功！')
+            // this.$forceUpdate()
+            this.$router.go(0)
+          } else {
+            console.log('error')
+          }
+        })
+      }
+    },
+    ifLogin () {
+      axios.get('/users/check').then((res) => {
+        console.log(res.data.status)
         if (parseInt(res.data.status) === 0) {
-          alert('提交成功！')
-          // this.$forceUpdate()
-          this.$router.go(0)
+          this.isLogin = true
+          this.isDisabled = false
+          this.$store.commit('saveName', res.data.result.userName)
+          this.$store.commit('savePwd', res.data.result.userPwd)
         } else {
-          console.log('error')
+          this.isLogin = false
+          this.isDisabled = true
         }
       })
     }
   },
   created () {
+    this.ifLogin()
     this.getDiscussList()
   }
 }
@@ -215,9 +231,13 @@ export default {
             width: 70px
             height: 30px
             border-radius: 5px
+            outline: none
+            background: #f7f7f7
+            color: #bbbec4
+            border-color: #dddee1
+          .login
             background: $themeColor
             color: #fff
-            outline: none
             &:hover
               cursor: pointer
               opacity: 0.8
