@@ -58,7 +58,7 @@
       </span>
     </div>
     <transition name="fade">
-      <div v-show="showLogin" class="login" @click=loginfade>
+      <div v-show="$store.state.user.showLogin" class="login" @click=loginfade>
         <div class="login-wrapper">
           <div class="login-label">
             <div @click="tologin" class="login-title" :class="{active: loginActive}">Login</div>
@@ -148,7 +148,6 @@ export default {
   name: 'Header',
   data () {
     return {
-      showLogin: false,
       loginActive: true,
       regisActive: false,
       showLoginContent: true,
@@ -164,11 +163,11 @@ export default {
   },
   methods: {
     triggerLogin () {
-      this.showLogin = true
+      this.$store.commit('showLoginFn')
     },
     loginfade () {
       if (event.currentTarget === event.target) {
-        this.showLogin = false
+        this.$store.state.user.showLogin = false
       }
     },
     tologin () {
@@ -189,10 +188,9 @@ export default {
         }).then((res) => {
           if (parseInt(res.data.status) === 0) {
             this.ifLogin = true
-            this.showLogin = false
+            this.$store.commit('hideLoginFn')
             this.$store.commit('saveName', this.input_name)
             this.$store.commit('savePwd', this.input_pass)
-            this.$router.go(0)
           } else {
             this.name_err = ''
             this.pass_err = '用户名或密码错误'
@@ -209,7 +207,7 @@ export default {
           userPwd: this.input_pass
         }).then((res) => {
           if (parseInt(res.data.status) === 0) {
-            this.showLogin = false
+            this.$store.commit('hideLoginFn')
             console.log(res.data.result)
             alert('注册成功！')
           } else if (parseInt(res.data.status) === 2) {
@@ -234,7 +232,6 @@ export default {
         this.ifLogin = false
         this.$store.commit('saveName', '')
         this.$store.commit('savePwd', '')
-        this.$router.go(0)
       })
     }
   },

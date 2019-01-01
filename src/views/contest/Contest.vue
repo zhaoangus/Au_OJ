@@ -5,20 +5,22 @@
         <table>
           <thead>
             <tr align="left">
-              <th>CID</th>
-              <th>Title</th>
-              <th>Status</th>
-              <th>Start Time</th>
-              <th>Type</th>
+              <th width="5%">CID</th>
+              <th width="40%">Title</th>
+              <th width="10%">Status</th>
+              <th width="30%">Start Time</th>
+              <th width="15%">Type</th>
             </tr>
           </thead>
           <tbody>
             <tr align="left" v-for="item in contest" :key="item.cid">
               <td>{{item.cid}}</td>
-              <td><router-link id="title" :to="{name:'DetailOverview', params:{cid:item.cid}}">{{item.title}}</router-link></td>
+              <td>
+                <span class="link" @click="visit(item)">{{item.title}}</span>
+              </td>
               <td id="status">{{item.status}}</td>
               <td>{{item.start}}</td>
-              <td class="type">Public</td>
+              <td class="type">Password</td>
             </tr>
           </tbody>
         </table>
@@ -32,6 +34,7 @@
 <script>
 import axios from 'axios'
 import JumpPage from '@/components/JumpPage'
+import { getDate } from '@/util/getDate'
 export default {
   name: 'Contest',
   components: {
@@ -59,6 +62,9 @@ export default {
         this.contest = res.data.res
         this.num = res.data.num
         this.pageNum = res.data.pageNum
+        this.contest.forEach((item) => {
+          item.start = getDate(parseInt(item.start))
+        })
       })
     },
     reload (currentpage) {
@@ -77,10 +83,22 @@ export default {
       }).then((res) => {
         this.contest = res.data.res
         this.pageNum = res.data.pageNum
+        this.contest.forEach((item) => {
+          item.start = getDate(parseInt(item.start))
+        })
       })
     },
     tochangePage (item) {
       this.reload(item)
+    },
+    visit (item) {
+      if (this.$store.state.user.name) {
+        if (item.encrypt) {
+          this.$router.push({name: 'DetailOverview', params: {cid: item.cid}})
+        }
+      } else {
+        this.$store.state.user.showLogin = true
+      }
     }
   },
   created () {
@@ -112,6 +130,9 @@ export default {
             td
               padding: 15px 0 15px 0
               border-bottom: 1px solid rgba(7, 17, 27, .1)
+              .link
+                color: $themeColor
+                cursor: pointer
             #title
               color: $themeColor
               &:hover

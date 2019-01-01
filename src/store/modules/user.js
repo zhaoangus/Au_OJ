@@ -28,7 +28,8 @@ const store = {
     unsolved: {
       type: [Number],
       default: []
-    }
+    },
+    showLogin: false
   },
   mutations: {
     saveName (state, name) {
@@ -36,6 +37,12 @@ const store = {
     },
     savePwd (state, pwd) {
       state.pwd = pwd
+    },
+    showLoginFn (state, pyload) {
+      state.showLogin = true
+    },
+    hideLoginFn (state, pyload) {
+      state.showLogin = false
     }
   }
 }
