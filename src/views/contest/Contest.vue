@@ -18,7 +18,7 @@
               <td>
                 <span class="link" @click="visit(item)">{{item.title}}</span>
               </td>
-              <td id="status">{{item.status}}</td>
+              <td id="status">{{status[item.status-1]}}</td>
               <td>{{item.start}}</td>
               <td class="type">Password</td>
             </tr>
@@ -28,6 +28,19 @@
       <JumpPage class="jump" v-if="pageNum" :contest="contest" :pageNum="pageNum"
       @changePage="tochangePage"></JumpPage>
     </div>
+    <transition name="fade">
+      <div class="encrypt-wrapper" v-show="showEncrypt">
+        <div class="encrypt">
+          <div class="input">
+            <input type="text" placeholder="Please enter password">
+          </div>
+          <div class="btn">
+            <button class="cancel" @click="cancel">取消</button>
+            <button class="confirm">确认</button>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -46,7 +59,9 @@ export default {
       pageSize: 20,
       pageNum: 0,
       page: 1,
-      num: 0
+      num: 0,
+      status: ['Ended', 'Runing'],
+      showEncrypt: false
     }
   },
   methods: {
@@ -94,11 +109,15 @@ export default {
     visit (item) {
       if (this.$store.state.user.name) {
         if (item.encrypt) {
-          this.$router.push({name: 'DetailOverview', params: {cid: item.cid}})
+          this.showEncrypt = true
+          // this.$router.push({name: 'DetailOverview', params: {cid: item.cid}})
         }
       } else {
         this.$store.state.user.showLogin = true
       }
+    },
+    cancel () {
+      this.showEncrypt = false
     }
   },
   created () {
@@ -110,7 +129,6 @@ export default {
 <style lang="stylus" scoped>
   @import '../../common/css/base.styl'
   .wrapper
-    position: relative
     margin: 20px 40px
     padding: 0 40px
     font-size: 14px
@@ -142,4 +160,67 @@ export default {
               font-weight: bold
             .type
               font-weight: bold
+  .encrypt-wrapper
+    position: fixed
+    z-index: 2
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    overflow: auto
+    color: $textColor
+    background: rgba(7, 17, 27, 0.4)
+    background-filter: blur(10px)
+    transition: opacity .5s
+    &.fade-enter, &.fade-leave-to
+      opacity: 0
+    .encrypt
+      position: absolute
+      z-index: 100
+      padding: 10px
+      top: 30%
+      left: 33%
+      width: 33%
+      height: 25%
+      text-align: center
+      background: #fff
+      border-radius: 10px
+      .input
+        display: inline-block
+        margin: 20px 0
+        text-align: center
+        height: 40px
+        width: 95%
+        input
+          width: 100%
+          height: 30px
+          border: 1px solid rgba(7, 17, 27, .1)
+          border-radius: 5px
+          outline: none
+          &:focus, &:hover
+            border: 1px solid $themeColor
+            box-shadow: 0 0 3px $themeColor
+      .btn
+        margin: 10px 0
+        text-align: right
+        button
+          display: inline-block
+          margin-left: 10px
+          width: 60px
+          height: 35px
+          vertical-align: middle
+          border-radius: 5px
+          outline: none
+          font-size: 14px
+          background: $themeColor
+          color: #fff
+          border-color: #dddee1
+          &:hover
+            cursor: pointer
+            opacity: 0.8
+        .cancel
+          background: #fff
+          color: $textColor
+          &:hover
+            color: $themeColor
 </style>

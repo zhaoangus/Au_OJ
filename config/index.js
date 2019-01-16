@@ -12,28 +12,28 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/news': {
-        target: 'http://localhost:3000'
+        target: 'http://localhost:3010'
       },
       '/users': {
-        target: 'http://localhost:3000'
+        target: 'http://localhost:3010'
       },
       '/news/*': {
-        target: 'http://localhost:3000'
+        target: 'http://localhost:3010'
       },
       '/users/*': {
-        target: 'http://localhost:3000'
+        target: 'http://localhost:3010'
       },
       '/problem': {
-        target: 'http://localhost:3000'
+        target: 'http://localhost:3010'
       },
       '/discuss': {
-        target: 'http://localhost:3000'
+        target: 'http://localhost:3010'
       },
       '/discuss/*': {
-        target: 'http://localhost:3000'
+        target: 'http://localhost:3010'
       },
       '/contest': {
-        target: 'http://localhost:3000'
+        target: 'http://localhost:3010'
       },
     },
 

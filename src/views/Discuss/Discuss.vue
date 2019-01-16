@@ -58,7 +58,7 @@ export default {
   data () {
     return {
       discuss: [],
-      pageSize: 30,
+      pageSize: 20,
       pageNum: 0,
       page: 1,
       num: 0,

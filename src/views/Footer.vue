@@ -16,9 +16,14 @@
 <script>
 export default {
   name: 'Footer',
+  data () {
+    return {
+      date: new Date()
+    }
+  },
   computed: {
     getTime: function () {
-      let myDate = new Date()
+      let myDate = this.date
       let seperator1 = '-'
       let seperator2 = ':'
       let month = myDate.getMonth() + 1
@@ -44,6 +49,17 @@ export default {
       return myDate.getFullYear() + seperator1 + month +
       seperator1 + strDate + ' ' + strH + seperator2 +
       strM + seperator2 + strS
+    }
+  },
+  mounted () {
+    let _this = this
+    this.timer = setInterval(() => {
+      _this.date = new Date()
+    }, 1000)
+  },
+  beforeDestroy () {
+    if (this.timer) {
+      clearInterval(this.timer)
     }
   }
 }

@@ -22,6 +22,7 @@ import DetailRanklist from '@/views/contest/DetailRanklist'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'hash',
   routes: [
     {
       path: '/news',
