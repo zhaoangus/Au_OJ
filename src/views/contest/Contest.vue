@@ -13,10 +13,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr align="left" v-for="item in contest" :key="item.cid">
+            <tr align="left" v-for="(item, index) in contest" :key="item.cid">
               <td>{{item.cid}}</td>
               <td>
-                <span class="link" @click="visit(item)">{{item.title}}</span>
+                <span class="link" @click="visit(item, index)">{{item.title}}</span>
               </td>
               <td id="status">{{status[item.status-1]}}</td>
               <td>{{item.start}}</td>
@@ -32,11 +32,11 @@
       <div class="encrypt-wrapper" v-show="showEncrypt">
         <div class="encrypt">
           <div class="input">
-            <input type="text" placeholder="Please enter password">
+            <input type="text" placeholder="Please enter password" v-model="input_encrypy">
           </div>
           <div class="btn">
             <button class="cancel" @click="cancel">取消</button>
-            <button class="confirm">确认</button>
+            <button class="confirm" @click="confirm">确认</button>
           </div>
         </div>
       </div>
@@ -61,7 +61,10 @@ export default {
       page: 1,
       num: 0,
       status: ['Ended', 'Runing'],
-      showEncrypt: false
+      showEncrypt: false,
+      input_encrypy: '',
+      index: 0,
+      item: {}
     }
   },
   methods: {
@@ -106,11 +109,12 @@ export default {
     tochangePage (item) {
       this.reload(item)
     },
-    visit (item) {
+    visit (item, index) {
       if (this.$store.state.user.name) {
         if (item.encrypt) {
           this.showEncrypt = true
-          // this.$router.push({name: 'DetailOverview', params: {cid: item.cid}})
+          this.index = index
+          this.item = item
         }
       } else {
         this.$store.state.user.showLogin = true
@@ -118,6 +122,13 @@ export default {
     },
     cancel () {
       this.showEncrypt = false
+    },
+    confirm () {
+      if (this.contest[this.index].encrypt === this.input_encrypy) {
+        this.$router.push({name: 'DetailOverview', params: {cid: this.item.cid}})
+      } else {
+        console.log('false')
+      }
     }
   },
   created () {
