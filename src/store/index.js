@@ -6,6 +6,7 @@ import user from './modules/user'
 import problem from './modules/problem'
 import discuss from './modules/discuss'
 import contest from './modules/contest'
+import ranklist from './modules/ranklist'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ export default new Vuex.Store({
     user,
     problem,
     discuss,
-    contest
+    contest,
+    ranklist
   }
   // plugins: [createPersistedState()]
 })

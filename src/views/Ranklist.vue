@@ -23,8 +23,17 @@
             </tr>
           </thead>
           <tbody>
+            <tr align="left" v-for="(item, index) in ranklist" :key="item.uid">
+              <td>{{index+1}}</td>
+              <td><router-link :to="{name:'Info',params:{uid:item.uid}}" id="username">{{item.name}}</router-link></td>
+              <td>{{item.nick}}</td>
+              <td>{{item.motto}}</td>
+              <td>{{item.solve}}</td>
+              <td>{{item.submit}}</td>
+              <td>{{item.submit!==0?(item.solve/item.submit*100).toFixed(2)+'%':0}}</td>
+            </tr>
             <tr align="left">
-              <td>1</td>
+              <td>5</td>
               <td><router-link to="/user/18H" id="username">18H</router-link></td>
               <td>1701400204 吕佳霖</td>
               <td>爱生活，爱化学；亲近自然，返璞归真。</td>
@@ -33,7 +42,7 @@
               <td>96.47%</td>
             </tr>
             <tr align="left">
-              <td>1</td>
+              <td>6</td>
               <td><router-link to="/user/18H" id="username">18H</router-link></td>
               <td>1701400204 吕佳霖</td>
               <td>爱生活，爱化学；亲近自然，返璞归真。</td>
@@ -44,17 +53,69 @@
           </tbody>
         </table>
       </div>
-      <JumpPage></JumpPage>
+      <JumpPage class="jump" v-if="pageNum" :ranklist="ranklist" :pageNum="pageNum"
+      @changePage="tochangePage"></JumpPage>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 import JumpPage from '@/components/JumpPage'
 export default {
   name: 'Ranklist',
   components: {
     JumpPage
+  },
+  data () {
+    return {
+      ranklist: [],
+      pageSize: 10,
+      pageNum: 0,
+      page: 1,
+      num: 0
+    }
+  },
+  methods: {
+    getRankList () {
+      this.page = parseInt(this.$route.query.page) || 1
+      this.$store.commit('toCurrentRanklistPage', this.page)
+      let param = {
+        page: this.page
+      }
+      axios.get('/ranklist', {
+        params: param
+      }).then((res) => {
+        this.ranklist = res.data.res
+        this.num = res.data.num
+        this.pageNum = res.data.pageNum
+        console.log(this.ranklist)
+      })
+    },
+    reload (currentpage) {
+      this.$router.push({
+        path: 'ranklist',
+        query: {
+          page: currentpage
+        }
+      })
+      let param = {
+        page: currentpage
+      }
+      this.$store.commit('toCurrentRanklistPage', this.page)
+      axios.get('/ranklist', {
+        params: param
+      }).then((res) => {
+        this.ranklist = res.data.res
+        this.pageNum = res.data.pageNum
+      })
+    },
+    tochangePage (item) {
+      this.reload(item)
+    }
+  },
+  mounted () {
+    this.getRankList()
   }
 }
 </script>

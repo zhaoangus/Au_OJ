@@ -48,6 +48,7 @@ export default {
     problem: Array,
     discuss: Array,
     contest: Array,
+    ranklist: Array,
     pageNum: Number
   },
   // computed: {
@@ -81,6 +82,9 @@ export default {
         break
       case '/contest':
         this.active = this.$store.state.contest.page
+        break
+      case '/ranklist':
+        this.active = this.$store.state.ranklist.page
         break
     }
     this.init()

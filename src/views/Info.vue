@@ -6,29 +6,29 @@
           <div class="avatar">
             <img src="../assets/img/avatar.png">
           </div>
-          <div class="name">18H034160339</div>
+          <div class="name">{{userInfo.name}}</div>
         </div>
         <div class="person-info">
           <div class="nick">
             <span class="iconfont">&#xe8bb;</span>
-            <span class="nick">Nick: 周叶</span>
+            <span class="nick">Nick: {{userInfo.nick||'none'}}</span>
           </div>
           <div class="group">
             <span class="iconfont">&#xe6f2;</span>
-            <span class="group">Group: 18H3</span>
+            <span class="group">Group: {{userInfo.school||'none'}}</span>
           </div>
           <div class="motto">
             <span class="iconfont">&#xe9da;</span>
-            <span class="motto">Motto: fgnb</span>
+            <span class="motto">Motto: {{userInfo.motto}}</span>
           </div>
         </div>
         <div class="submit-wrapper">
           <div class="solve">
-            <div class="number">49</div>
+            <div class="number">{{userInfo.solve}}</div>
             <div class="title">Solved</div>
           </div>
           <div class="submit">
-            <div class="number">56</div>
+            <div class="number">{{userInfo.submit}}</div>
             <div class="title">Submit</div>
           </div>
         </div>
@@ -42,15 +42,17 @@
           <div class="solved-wrapper">
             <div class="title">Solved</div>
             <div class="content">
-              <router-link to="/problem/751/descr" class="link">751</router-link>
-              <router-link to="/problem/751/descr" class="link">751</router-link>
+              <div class="link-wrapper" v-for="(item, index) in userInfo.solved" :key="index">
+                <router-link :to="{name:'Descr',params:{pid:item}}" class="link">{{item}}</router-link>
+              </div>
             </div>
           </div>
           <div class="unsolved-wrapper">
             <div class="title">Unsolved</div>
             <div class="content">
-              <router-link to="/problem/751/descr" class="link">751</router-link>
-              <router-link to="/problem/751/descr" class="link">751</router-link>
+              <div class="link-wrapper" v-for="(item, index) in userInfo.unsolved" :key="index">
+                <router-link :to="{name:'Descr',params:{pid:item}}" class="link">{{item}}</router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -103,11 +105,13 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Info',
   data () {
     return {
-      showOverview: true
+      showOverview: true,
+      userInfo: {}
     }
   },
   methods: {
@@ -116,7 +120,16 @@ export default {
     },
     toEdit () {
       this.showOverview = false
+    },
+    getUserInfo () {
+      let uid = this.$route.params.uid
+      axios.get(`/user/${uid}`).then(res => {
+        this.userInfo = res.data.res
+      })
     }
+  },
+  mounted () {
+    this.getUserInfo()
   }
 }
 </script>
@@ -191,9 +204,11 @@ export default {
               margin: 20px 0
             .content
               margin: 0 20px
-              .link
-                margin: 0 5px
-                color: $themeColor
+              .link-wrapper
+                display: inline-block
+                .link
+                  margin: 0 5px
+                  color: $themeColor
           .unsolved-wrapper
             .title
               margin: 20px 0

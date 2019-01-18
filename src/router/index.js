@@ -66,7 +66,7 @@ const router = new Router({
       component: DisDescr
     },
     {
-      path: '/user/:id',
+      path: '/user/:uid',
       name: 'Info',
       component: Info
     },

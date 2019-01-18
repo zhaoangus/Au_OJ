@@ -35,6 +35,12 @@ module.exports = {
       '/contest': {
         target: 'http://localhost:3010'
       },
+      '/ranklist': {
+        target: 'http://localhost:3010'
+      },
+      '/user': {
+        target: 'http://localhost:3010'
+      },
     },
 
     // Various Dev Server settings
