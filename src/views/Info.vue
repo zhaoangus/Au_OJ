@@ -62,40 +62,41 @@
               <div class="label-wrapper">
                 <label for="">Nick</label>
               </div>
-              <input type="text" value="zhou">
+              <input type="text" v-model="nick">
             </div>
             <div class="motto">
               <div class="label-wrapper">
                 <label for="">Motto</label>
               </div>
-              <input type="text">
+              <input type="text" v-model="motto">
             </div>
             <div class="school">
               <div class="label-wrapper">
                 <label for="">School</label>
               </div>
-              <input type="text">
+              <input type="text" v-model="school">
             </div>
             <div class="mail">
               <div class="label-wrapper">
                 <label for="">Mail</label>
               </div>
-              <input type="text">
+              <input type="text" v-model="mail">
             </div>
             <div class="password">
               <div class="label-wrapper">
                 <label for="">Password</label>
               </div>
-              <input type="text" placeholder="Leave it blank if it is not changed">
+              <input v-model="password" type="password" placeholder="Leave it blank if it is not changed">
             </div>
             <div class="checkpwd">
               <div class="label-wrapper">
                 <label for="">Checkpwd</label>
               </div>
-              <input type="text" placeholder="Leave it blank if it is not changed">
+              <input :class="{error: checkError}" v-model="checkpwd" type="password" placeholder="Leave it blank if it is not changed">
+              <!-- <div class="error-info">{{tips}}</div> -->
             </div>
             <div class="btn">
-              <button>Submit</button>
+              <button @click="submit">Submit</button>
             </div>
           </form>
         </div>
@@ -111,7 +112,15 @@ export default {
   data () {
     return {
       showOverview: true,
-      userInfo: {}
+      userInfo: {},
+      nick: '',
+      motto: '',
+      school: '',
+      mail: '',
+      password: '',
+      checkpwd: '',
+      // tips: '111'
+      checkError: false
     }
   },
   methods: {
@@ -125,7 +134,29 @@ export default {
       let uid = this.$route.params.uid
       axios.get(`/user/${uid}`).then(res => {
         this.userInfo = res.data.res
+        this.nick = this.userInfo.nick
+        this.motto = this.userInfo.motto
+        this.school = this.userInfo.school
+        this.mail = this.userInfo.mail
       })
+    },
+    submit () {
+      let uid = this.$route.params.uid
+      if (this.password !== this.checkpwd) {
+        this.checkError = true
+        this.checkpwd = ''
+      } else {
+        axios.post(`/user/${uid}`, {
+          nick: this.nick,
+          motto: this.motto,
+          school: this.school,
+          mail: this.mail,
+          password: this.password,
+          checkpwd: this.checkpwd
+        }).then(res => {
+          console.log(res.data.res)
+        })
+      }
     }
   },
   mounted () {
@@ -224,6 +255,7 @@ export default {
             width: 80%
             .label-wrapper
               display: inline-block
+              position: relative
               width: 100px
               label
                 display: inline-block
@@ -238,6 +270,8 @@ export default {
                 border: 1px solid $themeColor
               &::placeholder
                 color: rgba(7, 17, 27, .3)
+            .error
+              border: 1px solid red
           .btn
             margin: 30px 0 0 105px
             button
@@ -246,6 +280,7 @@ export default {
               border-radius: 5px
               background: $themeColor
               color: #fff
+              outline: none
               &:hover
                 cursor: pointer
                 opacity: 0.8
