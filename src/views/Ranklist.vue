@@ -32,24 +32,6 @@
               <td>{{item.submit}}</td>
               <td>{{item.submit!==0?(item.solve/item.submit*100).toFixed(2)+'%':0}}</td>
             </tr>
-            <tr align="left">
-              <td>5</td>
-              <td><router-link to="/user/18H" id="username">18H</router-link></td>
-              <td>1701400204 吕佳霖</td>
-              <td>爱生活，爱化学；亲近自然，返璞归真。</td>
-              <td>273</td>
-              <td>283</td>
-              <td>96.47%</td>
-            </tr>
-            <tr align="left">
-              <td>6</td>
-              <td><router-link to="/user/18H" id="username">18H</router-link></td>
-              <td>1701400204 吕佳霖</td>
-              <td>爱生活，爱化学；亲近自然，返璞归真。</td>
-              <td>273</td>
-              <td>283</td>
-              <td>96.47%</td>
-            </tr>
           </tbody>
         </table>
       </div>

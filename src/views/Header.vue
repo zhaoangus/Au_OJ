@@ -43,6 +43,12 @@
           FAQ
         </router-link>
       </div>
+      <div class="item-wrapper" v-if="isAdmin">
+        <router-link class="admin" to="/admin">
+          <span class="iconfont icon-problem">&#xe7d5;</span>
+          Admin
+        </router-link>
+      </div>
     </div>
     <div @click=triggerLogin class="login-nav">
       <span class="login-text-out" v-if="!ifLogin">
@@ -158,7 +164,8 @@ export default {
       name_err: '',
       pass_err: '',
       check_pwd: true,
-      ifLogin: false
+      ifLogin: false,
+      isAdmin: false
     }
   },
   methods: {
@@ -187,10 +194,12 @@ export default {
           userPwd: this.input_pass
         }).then((res) => {
           if (parseInt(res.data.status) === 0) {
+            if (res.data.result.isAdmin) {
+              this.isAdmin = true
+            }
             this.ifLogin = true
             this.$store.commit('hideLoginFn')
             this.$store.commit('saveName', this.input_name)
-            this.$store.commit('savePwd', this.input_pass)
           } else {
             this.name_err = ''
             this.pass_err = '用户名或密码错误'
@@ -223,15 +232,18 @@ export default {
         if (parseInt(res.data.status) === 0) {
           this.ifLogin = true
           this.$store.commit('saveName', res.data.result.userName)
-          this.$store.commit('savePwd', res.data.result.userPwd)
+        } else if (parseInt(res.data.status) === 2) {
+          this.ifLogin = true
+          this.isAdmin = true
+          this.$store.commit('saveName', res.data.result.userName)
         }
       })
     },
     logout () {
       axios.get('/users/logout').then((res) => {
         this.ifLogin = false
+        this.isAdmin = false
         this.$store.commit('saveName', '')
-        this.$store.commit('savePwd', '')
       })
     }
   },
@@ -270,7 +282,7 @@ export default {
         display: inline-block
         height: 60px
         line-height: 60px
-        .home, .problem, .discuss, .status, .ranklist, .contest, .faq
+        .home, .problem, .discuss, .status, .ranklist, .contest, .faq, .admin
           display: inline-block
           height: 60px
           line-height: 60px

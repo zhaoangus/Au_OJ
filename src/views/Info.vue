@@ -21,6 +21,14 @@
             <span class="iconfont">&#xe9da;</span>
             <span class="motto">Motto: {{userInfo.motto}}</span>
           </div>
+          <div class="mail">
+            <span class="iconfont">&#xe6f1;</span>
+            <span class="mail">Mail: {{userInfo.mail}}</span>
+          </div>
+          <div class="school">
+            <span class="iconfont">&#xea63;</span>
+            <span class="school">School: {{userInfo.school}}</span>
+          </div>
         </div>
         <div class="submit-wrapper">
           <div class="solve">
@@ -186,7 +194,7 @@ export default {
             font-weight: bold
         .person-info
           padding: 0 40px
-          .nick, .group, .motto
+          .nick, .group, .motto, .mail, .school
             margin: 10px 0
             vertical-align: top
         .submit-wrapper
@@ -237,17 +245,23 @@ export default {
               margin: 0 20px
               .link-wrapper
                 display: inline-block
+                height: 30px
+                line-height: 30px
                 .link
-                  margin: 0 5px
+                  margin: 0 8px
                   color: $themeColor
           .unsolved-wrapper
             .title
               margin: 20px 0
             .content
               margin: 0 20px
-              .link
-                margin: 0 5px
-                color: $themeColor
+              .link-wrapper
+                display: inline-block
+                height: 30px
+                line-height: 30px
+                .link
+                  margin: 0 8px
+                  color: $themeColor
         .show-edit
           margin: 0 20px
           .nick, .motto, .school, .mail, .password, .checkpwd

@@ -29,6 +29,11 @@ const store = {
       type: [Number],
       default: []
     },
+    isAdmin: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
     showLogin: false
   },
   mutations: {
