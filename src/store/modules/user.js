@@ -43,6 +43,12 @@ const store = {
     savePwd (state, pwd) {
       state.pwd = pwd
     },
+    saveAdmin (state) {
+      state.isAdmin = true
+    },
+    logoutAdmin (state) {
+      state.isAdmin = false
+    },
     showLoginFn (state, pyload) {
       state.showLogin = true
     },

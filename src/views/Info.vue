@@ -44,7 +44,7 @@
       <div class="right">
         <div class="title-wrapper">
           <span @click="toOverview" class="overview" :class="{active: showOverview}">Overview</span>
-          <span @click="toEdit" class="edit" :class="{active: !showOverview}">Edit</span>
+          <span @click="toEdit" v-if="this.userInfo.name === this.$store.state.user.name||$store.state.user.isAdmin === true" class="edit" :class="{active: !showOverview}">Edit</span>
         </div>
         <div v-if="showOverview" class="show-overview">
           <div class="solved-wrapper">
@@ -128,7 +128,9 @@ export default {
       password: '',
       checkpwd: '',
       // tips: '111'
-      checkError: false
+      checkError: false,
+      showEdit: false,
+      isSelf: false
     }
   },
   methods: {

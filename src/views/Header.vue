@@ -196,6 +196,7 @@ export default {
           if (parseInt(res.data.status) === 0) {
             if (res.data.result.isAdmin) {
               this.isAdmin = true
+              this.$store.commit('saveAdmin')
             }
             this.ifLogin = true
             this.$store.commit('hideLoginFn')
@@ -236,14 +237,18 @@ export default {
           this.ifLogin = true
           this.isAdmin = true
           this.$store.commit('saveName', res.data.result.userName)
+          this.$store.commit('saveAdmin')
         }
       })
     },
     logout () {
       axios.get('/users/logout').then((res) => {
         this.ifLogin = false
-        this.isAdmin = false
         this.$store.commit('saveName', '')
+        if (this.isAdmin) {
+          this.isAdmin = false
+          this.$store.commit('logoutAdmin')
+        }
       })
     }
   },

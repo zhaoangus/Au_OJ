@@ -71,7 +71,6 @@ export default {
         this.ranklist = res.data.res
         this.num = res.data.num
         this.pageNum = res.data.pageNum
-        console.log(this.ranklist)
       })
     },
     reload (currentpage) {
