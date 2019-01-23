@@ -1,23 +1,34 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/views/Layout'
-import Problem from '@/views/Problem/Problem'
 import News from '@/views/News'
+
+import Problem from '@/views/Problem/Problem'
 import Descr from '@/views/Problem/Descr'
 import Sub from '@/views/Problem/Sub'
 import Stat from '@/views/Problem/Stat'
+
 import Discuss from '@/views/Discuss/Discuss'
 import DisDescr from '@/views/Discuss/DisDescr'
+
 import Info from '@/views/Info'
 import Status from '@/views/Status'
 import Ranklist from '@/views/Ranklist'
+
 import Contest from '@/views/contest/Contest'
 import ContestDetail from '@/views/contest/ContestDetail'
+
 import DetailOverview from '@/views/contest/DetailOverview'
 import DetailProblem from '@/views/contest/DetailProblem'
 import DetailSubmit from '@/views/contest/DetailSubmit'
 import DetailStatus from '@/views/contest/DetailStatus'
 import DetailRanklist from '@/views/contest/DetailRanklist'
+
+import Manage from '@/views/admin/Manage'
+import UserEdit from '@/views/admin/UserEdit'
+import GroupEdit from '@/views/admin/GroupEdit'
+import AdminEdit from '@/views/admin/AdminEdit'
+import TagEdit from '@/views/admin/TagEdit'
 
 Vue.use(Router)
 
@@ -115,6 +126,33 @@ const router = new Router({
           path: 'ranklist',
           name: 'DetailRanklist',
           component: DetailRanklist
+        }
+      ]
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Manage,
+      children: [
+        {
+          path: 'useredit',
+          name: 'UserEdit',
+          component: UserEdit
+        },
+        {
+          path: 'groupedit',
+          name: 'GroupEdit',
+          component: GroupEdit
+        },
+        {
+          path: 'adminedit',
+          name: 'AdminEdit',
+          component: AdminEdit
+        },
+        {
+          path: 'tagedit',
+          name: 'TagEdit',
+          component: TagEdit
         }
       ]
     }

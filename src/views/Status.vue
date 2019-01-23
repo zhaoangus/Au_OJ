@@ -121,7 +121,6 @@ export default {
           padding-left: 5px
           width: 150px
           height: 30px
-          outline: none
           border: 1px solid rgba(7, 17, 27, .1)
           border-radius: 5px
           &:focus, &:hover

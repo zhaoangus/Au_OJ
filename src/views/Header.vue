@@ -44,10 +44,15 @@
         </router-link>
       </div>
       <div class="item-wrapper" v-if="isAdmin">
-        <router-link class="admin" to="/admin">
+        <router-link class="admin" to="/admin/useredit">
           <span class="iconfont icon-problem">&#xe7d5;</span>
           Admin
         </router-link>
+        <div class="dropdown">
+          <router-link class="dropdown-link" to="/admin">Create Problem</router-link>
+          <router-link class="dropdown-link" to="/admin">Create Contest</router-link>
+          <router-link class="dropdown-link" to="/admin">Create News</router-link>
+        </div>
       </div>
     </div>
     <div @click=triggerLogin class="login-nav">
@@ -284,9 +289,12 @@ export default {
       display: inline-block
       min-width: 900px
       .item-wrapper
+        position: relative
         display: inline-block
         height: 60px
         line-height: 60px
+        &:hover .dropdown
+          display: block
         .home, .problem, .discuss, .status, .ranklist, .contest, .faq, .admin
           display: inline-block
           height: 60px
@@ -298,6 +306,22 @@ export default {
             color: $themeColor
             cursor: pointer
             border-bottom: 2px solid $themeColor
+        .dropdown
+          display: none
+          position: absolute
+          font-size: 12px
+          background: #fff
+          .dropdown-link
+            width: 102px
+            height: 30px
+            line-height: 30px
+            color: $textColor
+            text-decoration: none
+            display: block
+            text-align: center
+          .dropdown-link:hover
+            color: #fff
+            background: $themeColor
     .login-nav
       display: inline-block
       margin-right: 5%
