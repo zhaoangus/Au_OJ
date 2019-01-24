@@ -4,51 +4,105 @@
     <div class="row">
       <span class="label-title">Username</span>
       <span class="input-title">
-        <input type="text">
+        <input type="text" v-model="username">
       </span>
       <span class="search">
-        <button>Search</button>
+        <button @click="getUserInfo">Search</button>
       </span>
     </div>
     <div class="row">
       <span class="label">Nick</span>
       <span class="input">
-        <input type="text">
+        <input type="text" v-model="nick">
       </span>
     </div>
     <div class="row">
       <span class="label">Motto</span>
       <span class="input">
-        <input type="text">
+        <input type="text" v-model="motto">
       </span>
     </div>
     <div class="row">
       <span class="label">School</span>
       <span class="input">
-        <input type="text">
+        <input type="text" v-model="school">
       </span>
     </div>
     <div class="row">
       <span class="label">Password</span>
       <span class="input">
-        <input type="password" placeholder="Leave it blank if it is not changed">
+        <input type="password" v-model="password" placeholder="Leave it blank if it is not changed">
       </span>
     </div>
     <div class="row">
       <span class="label">CheckPwd</span>
       <span class="input">
-        <input type="password" placeholder="Leave it blank if it is not changed">
+        <input :class="{error: checkError}" type="password" v-model="checkpwd" placeholder="Leave it blank if it is not changed">
       </span>
     </div>
     <div class="button">
-      <button>Submit</button>
+      <button @click="submit">Submit</button>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'UserEdit'
+  name: 'UserEdit',
+  data () {
+    return {
+      username: '',
+      uid: '',
+      nick: '',
+      motto: '',
+      school: '',
+      password: '',
+      checkpwd: '',
+      userInfo: {},
+      checkError: false
+    }
+  },
+  methods: {
+    getUserInfo () {
+      axios.post('/user', {
+        username: this.username
+      }).then(res => {
+        if (res.data.code === 0) {
+          console.log(res)
+          this.userInfo = res.data.res
+          this.uid = this.userInfo.uid
+          this.nick = this.userInfo.nick
+          this.motto = this.userInfo.motto
+          this.school = this.userInfo.school
+          this.password = this.userInfo.pwd
+          this.checkpwd = this.userInfo.pwd
+        } else {
+          alert('无此用户信息！')
+        }
+      })
+    },
+    submit () {
+      if (this.password !== this.checkpwd) {
+        this.checkError = true
+      } else {
+        let uid = this.uid
+        axios.post(`/user/${uid}`, {
+          nick: this.nick,
+          motto: this.motto,
+          school: this.school,
+          mail: this.mail,
+          password: this.password
+        }).then(res => {
+          if (res.data.code === 0) {
+            alert('修改成功')
+          } else {
+            alert('error!')
+          }
+        })
+      }
+    }
+  }
 }
 </script>
 
@@ -104,6 +158,8 @@ export default {
           border-radius: 5px
           &:focus, &:hover
             border: 1px solid $themeColor
+        .error
+          border: 1px solid red
     .button
       margin: 20px 0 10px 0
       button
