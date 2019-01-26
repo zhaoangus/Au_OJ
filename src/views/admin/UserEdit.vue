@@ -68,8 +68,8 @@ export default {
       axios.post('/user', {
         username: this.username
       }).then(res => {
+        console.log(res)
         if (res.data.code === 0) {
-          console.log(res)
           this.userInfo = res.data.res
           this.uid = this.userInfo.uid
           this.nick = this.userInfo.nick

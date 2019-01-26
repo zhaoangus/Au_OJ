@@ -34,7 +34,26 @@ const store = {
       required: true,
       default: false
     },
-    showLogin: false
+    showLogin: false,
+    adminList: {
+      type: Array,
+      default: [{
+        name: 'admin1',
+        uid: 1,
+        nick: 'admin',
+        motto: 'admin',
+        mail: 'zhao_angus@163.com',
+        school: 'BIT',
+        solve: 30,
+        pwd: 'admin1angus',
+        submit: 36,
+        solved: [1, 3, 6, 7, 8, 10, 13, 34, 45, 55, 57, 58, 60, 70, 91,
+          101, 104, 109, 120, 129, 139, 140, 143, 159, 190, 201, 203, 205, 245,
+          267],
+        unsolved: [2, 4, 80, 105, 110, 180],
+        isAdmin: true
+      }]
+    }
   },
   mutations: {
     saveName (state, name) {
@@ -54,6 +73,9 @@ const store = {
     },
     hideLoginFn (state, pyload) {
       state.showLogin = false
+    },
+    addAdmin (state, pyload) {
+      state.addAdmin.push(pyload)
     }
   }
 }

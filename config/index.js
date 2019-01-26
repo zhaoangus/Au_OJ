@@ -41,6 +41,9 @@ module.exports = {
       '/user': {
         target: 'http://localhost:3010'
       },
+      '/admin': {
+        target: 'http://localhost:3010'
+      },
     },
 
     // Various Dev Server settings
