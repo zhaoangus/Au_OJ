@@ -29,6 +29,9 @@ import UserEdit from '@/views/admin/UserEdit'
 import GroupEdit from '@/views/admin/GroupEdit'
 import AdminEdit from '@/views/admin/AdminEdit'
 import TagEdit from '@/views/admin/TagEdit'
+import NewsCreate from '@/views/admin/NewsCreate'
+import ProblemCreate from '@/views/admin/ProblemCreate'
+import ContestCreate from '@/views/admin/ContestCreate'
 
 Vue.use(Router)
 
@@ -155,6 +158,21 @@ const router = new Router({
           component: TagEdit
         }
       ]
+    },
+    {
+      path: '/createnews',
+      name: 'NewsCreate',
+      component: NewsCreate
+    },
+    {
+      path: '/createpro',
+      name: 'ProblemCreate',
+      component: ProblemCreate
+    },
+    {
+      path: '/createcon',
+      name: 'ContestCreate',
+      component: ContestCreate
     }
   ]
 })

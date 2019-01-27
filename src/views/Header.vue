@@ -49,9 +49,9 @@
           Admin
         </router-link>
         <div class="dropdown">
-          <router-link class="dropdown-link" to="/admin">Create Problem</router-link>
-          <router-link class="dropdown-link" to="/admin">Create Contest</router-link>
-          <router-link class="dropdown-link" to="/admin">Create News</router-link>
+          <router-link class="dropdown-link" to="/createpro">Create Problem</router-link>
+          <router-link class="dropdown-link" to="/createcon">Create Contest</router-link>
+          <router-link class="dropdown-link" to="/createnews">Create News</router-link>
         </div>
       </div>
     </div>
