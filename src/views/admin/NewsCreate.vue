@@ -15,37 +15,42 @@
     <div class="btn">
       <button @click="submit">Submit</button>
     </div>
+    <Alert :type="error" v-if="showAlert" :show="showAlert"></Alert>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import { VueEditor } from 'vue2-editor'
+import Alert from '@/components/Alert'
 export default {
   name: 'NewsCreate',
   data () {
     return {
       title: '',
-      content: ''
+      content: '',
+      showAlert: false
     }
   },
   methods: {
     submit () {
-      if (!this.title) {
-        alert('title cannot be empty!')
-      } else {
-        axios.post('/admin/newscreate', {
-          title: this.title,
-          content: this.content,
-          create: Date.now()
-        }).then(res => {
-          console.log(res.data.res)
-        })
-      }
+      this.showAlert = true
+      // if (!this.title) {
+      //   alert('title cannot be empty!')
+      // } else {
+      //   axios.post('/admin/newscreate', {
+      //     title: this.title,
+      //     content: this.content,
+      //     create: Date.now()
+      //   }).then(res => {
+      //     console.log(res.data.res)
+      //   })
+      // }
     }
   },
   components: {
-    VueEditor
+    VueEditor,
+    Alert
   }
 }
 </script>
