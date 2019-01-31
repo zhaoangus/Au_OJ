@@ -12,11 +12,11 @@
 后端使用轻量的Koa框架，使用mongoose链接数据库。
 
 ## 项目预览
-<img src="https://github.com/zhaoangus/Au_OJ/blob/master/static/img/1.png" width="500" align=left /><br>
+<img src="https://github.com/zhaoangus/Au_OJ/blob/master/static/img/1.png" width="700" align=left display="block" /><br>
 
-<img src="https://github.com/zhaoangus/Au_OJ/blob/master/static/img/2.png" width="500" align=left /><br>
+<img src="https://github.com/zhaoangus/Au_OJ/blob/master/static/img/2.png" width="700" align=left display="block" /><br>
 
-<img src="https://github.com/zhaoangus/Au_OJ/blob/master/static/img/3.png" width="500" align=left /><br>
+<img src="https://github.com/zhaoangus/Au_OJ/blob/master/static/img/3.png" width="700" align=left display="block" /><br>
 
 ## 实现功能
 前端主要分为消息模块、题目模块、讨论模块、状态模块、排名模块、比赛模块和管理员模块。用户分为两种：普通用户和管理员用户。普通用户可以答题、参加比赛、发帖、查看信息等，管理员可对题目、消息、比赛等拥有增删改查的权限。
