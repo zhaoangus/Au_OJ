@@ -50,12 +50,6 @@ export default {
     this.getVisible()
     this.setTime()
   }
-  // watch: {
-  //   show: function (newValue, oldValue) {
-  //     this.visible = newValue
-  //     this.setTime()
-  //   }
-  // }
 }
 </script>
 
@@ -66,7 +60,7 @@ export default {
     top: 50px
     left: 50%
     transform: translate(-50%, -50%)
-    padding: 5px
+    padding: 10px 5px
     text-align: center
     border: 1px solid rgba(7, 17, 27, .1)
     border-radius: 5px

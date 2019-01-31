@@ -22,20 +22,30 @@
         <div class="info">You will receive notifications through your email, if anyone replies</div>
       </div>
     </div>
+    <Alert :type="type" v-if="showAlert" :show="showAlert"
+      :message="message"
+    ></Alert>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Alert from '@/components/Alert'
 import { dateDiff } from '@/util/time'
 export default {
   name: 'DisDescr',
+  components: {
+    Alert
+  },
   data () {
     return {
       currentDiscuss: {},
       reply: '',
       isLogin: false,
-      isDisabled: true
+      isDisabled: true,
+      type: '',
+      message: '',
+      showAlert: false
     }
   },
   methods: {
@@ -54,12 +64,25 @@ export default {
           reply: this.reply,
           create: time
         }).then((res) => {
-          this.currentDiscuss.comments.push({uid: 1, content: this.reply, create: time})
-          this.timeUpNow(this.currentDiscuss.comments)
-          this.reply = ''
+          if (res.data.status === 0) {
+            this.showAlert = true
+            this.message = '添加回复成功'
+            this.type = 'success'
+            setTimeout(() => {
+              this.showAlert = false
+            }, 2000)
+            this.currentDiscuss.comments.push({uid: 1, content: this.reply, create: time})
+            this.timeUpNow(this.currentDiscuss.comments)
+            this.reply = ''
+          }
         })
       } else {
-        alert('内容不能为空！')
+        this.showAlert = true
+        this.message = '内容不能为空！'
+        this.type = 'error'
+        setTimeout(() => {
+          this.showAlert = false
+        }, 2000)
       }
     },
     timeUpNow (discuss) {
@@ -71,7 +94,7 @@ export default {
     ifLogin () {
       axios.get('/users/check').then((res) => {
         console.log(res.data.status)
-        if (parseInt(res.data.status) === 0) {
+        if (parseInt(res.data.status) === 0 || parseInt(res.data.status) === 2) {
           this.isLogin = true
           this.isDisabled = false
           this.$store.commit('saveName', res.data.result.userName)
