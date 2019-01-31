@@ -28,17 +28,27 @@
         </tr>
       </tbody>
     </table>
+    <Alert :type="type" v-if="showAlert" :show="showAlert"
+      :message="message"
+    ></Alert>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Alert from '@/components/Alert'
 export default {
   name: 'AdminEdit',
+  components: {
+    Alert
+  },
   data () {
     return {
       admin: '',
-      adminList: []
+      adminList: [],
+      type: '',
+      message: '',
+      showAlert: false
     }
   },
   computed: {
@@ -53,6 +63,12 @@ export default {
       }).then(res => {
         if (res.data.code === 0) {
           this.getAdminList()
+          this.showAlert = true
+          this.message = '添加管理员成功！'
+          this.type = 'success'
+          setTimeout(() => {
+            this.showAlert = false
+          }, 2000)
         }
       })
     },
@@ -62,6 +78,12 @@ export default {
       }).then(res => {
         if (res.data.code === 0) {
           this.getAdminList()
+          this.showAlert = true
+          this.message = '删除管理员成功！'
+          this.type = 'success'
+          setTimeout(() => {
+            this.showAlert = false
+          }, 2000)
         }
       })
     },
@@ -69,7 +91,6 @@ export default {
       axios.get('/admin/list').then(res => {
         if (res.data.code === 0) {
           this.adminList = res.data.res
-          console.log(res)
         }
       })
     }

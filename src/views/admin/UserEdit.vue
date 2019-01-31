@@ -43,13 +43,20 @@
     <div class="button">
       <button @click="submit">Submit</button>
     </div>
+    <Alert :type="type" v-if="showAlert" :show="showAlert"
+      :message="message"
+    ></Alert>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Alert from '@/components/Alert'
 export default {
   name: 'UserEdit',
+  components: {
+    Alert
+  },
   data () {
     return {
       username: '',
@@ -60,7 +67,10 @@ export default {
       password: '',
       checkpwd: '',
       userInfo: {},
-      checkError: false
+      checkError: false,
+      type: '',
+      message: '',
+      showAlert: false
     }
   },
   methods: {
@@ -68,7 +78,6 @@ export default {
       axios.post('/user', {
         username: this.username
       }).then(res => {
-        console.log(res)
         if (res.data.code === 0) {
           this.userInfo = res.data.res
           this.uid = this.userInfo.uid
@@ -78,7 +87,12 @@ export default {
           this.password = this.userInfo.pwd
           this.checkpwd = this.userInfo.pwd
         } else {
-          alert('无此用户信息！')
+          this.showAlert = true
+          this.message = '无此用户信息'
+          this.type = 'error'
+          setTimeout(() => {
+            this.showAlert = false
+          }, 2000)
         }
       })
     },
@@ -95,9 +109,19 @@ export default {
           password: this.password
         }).then(res => {
           if (res.data.code === 0) {
-            alert('修改成功')
+            this.showAlert = true
+            this.message = '修改成功！'
+            this.type = 'success'
+            setTimeout(() => {
+              this.showAlert = false
+            }, 2000)
           } else {
-            alert('error!')
+            this.showAlert = true
+            this.message = '出错了！'
+            this.type = 'error'
+            setTimeout(() => {
+              this.showAlert = false
+            }, 2000)
           }
         })
       }
