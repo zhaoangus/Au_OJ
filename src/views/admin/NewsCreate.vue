@@ -15,7 +15,9 @@
     <div class="btn">
       <button @click="submit">Submit</button>
     </div>
-    <Alert :type="error" v-if="showAlert" :show="showAlert"></Alert>
+    <Alert :type="type" v-if="showAlert" :show="showAlert"
+      :message="message"
+    ></Alert>
   </div>
 </template>
 
@@ -29,23 +31,36 @@ export default {
     return {
       title: '',
       content: '',
-      showAlert: false
+      showAlert: false,
+      message: '',
+      type: ''
     }
   },
   methods: {
     submit () {
-      this.showAlert = true
-      // if (!this.title) {
-      //   alert('title cannot be empty!')
-      // } else {
-      //   axios.post('/admin/newscreate', {
-      //     title: this.title,
-      //     content: this.content,
-      //     create: Date.now()
-      //   }).then(res => {
-      //     console.log(res.data.res)
-      //   })
-      // }
+      if (!this.title) {
+        this.showAlert = true
+        this.message = 'title cannot be empty!'
+        this.type = 'error'
+        setTimeout(() => {
+          this.showAlert = false
+        }, 2000)
+      } else {
+        axios.post('/admin/newscreate', {
+          title: this.title,
+          content: this.content,
+          create: Date.now()
+        }).then(res => {
+          if (res.data.code === 0) {
+            this.showAlert = true
+            this.message = '新增消息成功！'
+            this.type = 'success'
+            setTimeout(() => {
+              this.showAlert = false
+            }, 2000)
+          }
+        })
+      }
     }
   },
   components: {

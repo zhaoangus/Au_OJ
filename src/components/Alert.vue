@@ -1,22 +1,20 @@
 <template>
-  <div class="alert" v-show="visible">
-    <i v-if="type==='info'" class="icon iconfont">&#xe623;</i>
-    <i v-if="type==='success'" class="icon iconfont">&#xe613;</i>
-    <i v-if="type==='error'" class="icon iconfont">&#xe62b;</i>
-    <i v-if="type==='warning'" class="icon iconfont">&#xe836;</i>
-    <div class="message">message</div>
-    <button v-show="closable" @click="close">close</button>
-  </div>
+  <transition name="slide">
+    <div class="alert" v-if="visible">
+      <i v-if="type==='info'" class="icon iconfont" :class="{isInfo:type==='info'}">&#xe623;</i>
+      <i v-if="type==='success'" class="icon iconfont" :class="{isSuccess:type==='success'}">&#xe613;</i>
+      <i v-if="type==='error'" class="icon iconfont" :class="{isError:type==='error'}">&#xe62b;</i>
+      <i v-if="type==='warning'" class="icon iconfont" :class="{isWarning:type==='warning'}">&#xe836;</i>
+      <div class="message">{{message}}</div>
+      <!-- <button v-show="closable" @click="close">close</button> -->
+    </div>
+  </transition>
 </template>
 
 <script>
 export default {
   name: 'Alert',
   props: {
-    closable: {
-      type: Boolean,
-      default: true
-    },
     show: {
       type: Boolean,
       default: true
@@ -24,23 +22,40 @@ export default {
     type: {
       type: String,
       default: 'info'
+    },
+    message: {
+      type: String
     }
   },
   data () {
     return {
-      visible: this.show
+      visible: false,
+      isInfo: false,
+      isSuccess: false,
+      isError: false,
+      isWarning: false
     }
   },
   methods: {
-    close () {
-      this.visible = false
+    getVisible () {
+      this.visible = this.show
+    },
+    setTime () {
+      setTimeout(() => {
+        this.visible = false
+      }, 2000)
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.visible = false
-    }, 3000)
+    this.getVisible()
+    this.setTime()
   }
+  // watch: {
+  //   show: function (newValue, oldValue) {
+  //     this.visible = newValue
+  //     this.setTime()
+  //   }
+  // }
 }
 </script>
 
@@ -49,14 +64,32 @@ export default {
   .alert
     position: fixed
     top: 50px
-    left: 0
-    right: 0
-    width: 100px
-    height: 50px
-    margin: 0 auto
-    border: 1px solid $themeColor
+    left: 50%
+    transform: translate(-50%, -50%)
+    padding: 5px
+    text-align: center
+    border: 1px solid rgba(7, 17, 27, .1)
+    border-radius: 5px
     z-index: 100
+    background: #fff
+    &.slide-enter-active, &.slide-leave-active
+      transition: all .5s linear
+    &.slide-enter, &.slide-leave-to
+      top: 0
     .iconfont
       display: inline-block
+      margin: 0 5px
+      vertical-align: middle
       color: $themeColor
+    .isInfo
+      color: $themeColor
+    .isSuccess
+      color: green
+    .isError
+      color: red
+    .isWarning
+      color: yellow
+    .message
+      display: inline-block
+      margin-right: 5px
 </style>

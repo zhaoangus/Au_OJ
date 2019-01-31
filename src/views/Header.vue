@@ -149,14 +149,21 @@
         </div>
       </div>
     </transition>
+    <Alert :type="type" v-if="showAlert" :show="showAlert"
+      :message="message"
+    ></Alert>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Alert from '@/components/Alert'
 import { validatorName, validatorPass } from '../util/validator'
 export default {
   name: 'Header',
+  components: {
+    Alert
+  },
   data () {
     return {
       loginActive: true,
@@ -170,7 +177,10 @@ export default {
       pass_err: '',
       check_pwd: true,
       ifLogin: false,
-      isAdmin: false
+      isAdmin: false,
+      type: '',
+      message: '',
+      showAlert: false
     }
   },
   methods: {
@@ -199,6 +209,12 @@ export default {
           userPwd: this.input_pass
         }).then((res) => {
           if (parseInt(res.data.status) === 0) {
+            this.showAlert = true
+            this.message = `欢迎你，${this.input_name}`
+            this.type = 'success'
+            setTimeout(() => {
+              this.showAlert = false
+            }, 2000)
             if (res.data.result.isAdmin) {
               this.isAdmin = true
               this.$store.commit('saveAdmin')
@@ -248,6 +264,12 @@ export default {
     },
     logout () {
       axios.get('/users/logout').then((res) => {
+        this.showAlert = true
+        this.message = `bye，${this.input_name}`
+        this.type = 'success'
+        setTimeout(() => {
+          this.showAlert = false
+        }, 2000)
         this.ifLogin = false
         this.$store.commit('saveName', '')
         if (this.isAdmin) {
