@@ -10,7 +10,7 @@
               <div class="info">
                 <router-link :to="{name:'News',params:{nid:item.nid}}">{{item.title}}</router-link>
               </div>
-              <div class="date">2018-10-09 20:37:29</div>
+              <div class="date">{{item.create}}</div>
             </div>
           </li>
         </ul>
@@ -25,6 +25,7 @@
 <script>
 import axios from 'axios'
 import JumpPage from '@/components/JumpPage'
+import { getDate } from '@/util/getDate'
 export default {
   name: 'Layout',
   components: {
@@ -52,6 +53,9 @@ export default {
         this.news = res.data.res
         this.num = res.data.num
         this.pageNum = res.data.pageNum
+        this.news.forEach((item) => {
+          item.create = getDate(item.create)
+        })
         // this.$store.commit('pageNews', this.news)
       })
     },
@@ -71,6 +75,9 @@ export default {
       }).then((res) => {
         this.news = res.data.res
         this.pageNum = res.data.pageNum
+        this.news.forEach((item) => {
+          item.create = getDate(item.create)
+        })
         // this.$store.commit('pageNews', this.news)
         // console.log(this.$store.state.news.content)
       })

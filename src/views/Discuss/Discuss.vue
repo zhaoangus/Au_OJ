@@ -65,7 +65,8 @@ export default {
       title: '',
       content: '',
       isLogin: false,
-      isDisabled: true
+      isDisabled: true,
+      userName: ''
     }
   },
   // computed: {
@@ -87,6 +88,7 @@ export default {
         this.num = res.data.num
         this.pageNum = res.data.pageNum
         this.timeUpNow(res.data.res)
+        // this.getUserName(res.data.res.uid)
         // this.$store.commit('currentDiscuss', res.data.res)
       })
     },
@@ -127,7 +129,6 @@ export default {
           content: this.content,
           create: Date.now()
         }).then((res) => {
-          console.log(res.data)
           if (parseInt(res.data.status) === 0) {
             alert('提交成功！')
             // this.$forceUpdate()
@@ -140,7 +141,6 @@ export default {
     },
     ifLogin () {
       axios.get('/users/check').then((res) => {
-        console.log(res.data.status)
         if (parseInt(res.data.status) === 0) {
           this.isLogin = true
           this.isDisabled = false
@@ -152,6 +152,13 @@ export default {
         }
       })
     }
+    // getUserName (uid) {
+    //   axios.post('/users/name', {
+    //     uid: parseInt(uid)
+    //   }).then(res => {
+    //     return res.data.res.name
+    //   })
+    // }
   },
   created () {
     this.ifLogin()

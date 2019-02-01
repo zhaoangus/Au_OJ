@@ -59,6 +59,9 @@ const store = {
     saveName (state, name) {
       state.name = name
     },
+    saveUid (state, uid) {
+      state.uid = uid
+    },
     savePwd (state, pwd) {
       state.pwd = pwd
     },

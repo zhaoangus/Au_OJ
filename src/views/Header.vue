@@ -48,11 +48,13 @@
           <span class="iconfont icon-problem">&#xe7d5;</span>
           Admin
         </router-link>
-        <div class="dropdown">
-          <router-link class="dropdown-link" to="/createpro">Create Problem</router-link>
-          <router-link class="dropdown-link" to="/createcon">Create Contest</router-link>
-          <router-link class="dropdown-link" to="/createnews">Create News</router-link>
-        </div>
+        <transition name="dropdown">
+          <div class="dropdown">
+            <router-link class="dropdown-link" to="/createpro">Create Problem</router-link>
+            <router-link class="dropdown-link" to="/createcon">Create Contest</router-link>
+            <router-link class="dropdown-link" to="/createnews">Create News</router-link>
+          </div>
+        </transition>
       </div>
     </div>
     <div @click=triggerLogin class="login-nav">
@@ -61,7 +63,7 @@
       </span>
       <span class="login-text-in" v-if="ifLogin" @click.stop>
         <span class="text">
-          {{$store.state.user.name}}
+          <router-link :to="{name:'Info',params:{uid:$store.state.user.uid}}" id="username">{{$store.state.user.name}}</router-link>
         </span>
         <span class="logout" @click="logout">
           logout
@@ -222,6 +224,7 @@ export default {
             this.ifLogin = true
             this.$store.commit('hideLoginFn')
             this.$store.commit('saveName', this.input_name)
+            this.$store.commit('saveUid', res.data.result.uid)
           } else {
             this.name_err = ''
             this.pass_err = '用户名或密码错误'
@@ -254,10 +257,12 @@ export default {
         if (parseInt(res.data.status) === 0) {
           this.ifLogin = true
           this.$store.commit('saveName', res.data.result.userName)
+          this.$store.commit('saveUid', res.data.result.uid)
         } else if (parseInt(res.data.status) === 2) {
           this.ifLogin = true
           this.isAdmin = true
           this.$store.commit('saveName', res.data.result.userName)
+          this.$store.commit('saveUid', res.data.result.uid)
           this.$store.commit('saveAdmin')
         }
       })
@@ -333,10 +338,11 @@ export default {
           position: absolute
           font-size: 12px
           background: #fff
+          box-shadow: 1px 1px 1px #888
           .dropdown-link
             width: 102px
-            height: 30px
-            line-height: 30px
+            height: 35px
+            line-height: 35px
             color: $textColor
             text-decoration: none
             display: block
