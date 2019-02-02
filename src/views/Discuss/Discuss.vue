@@ -16,7 +16,7 @@
           <tr align="left" v-for="item in discuss" :key="item.did">
             <td>{{item.did}}</td>
             <td><router-link class="title" :to="{name:'DisDescr',params:{did:item.did}}">{{item.title}}</router-link></td>
-            <td><router-link class="author" to="/user/18H">{{item.uid}}</router-link></td>
+            <td><router-link class="author" :to="{name: 'Info', params:{uid:item.uid}}">{{item.uid}}</router-link></td>
             <td>{{item.update}}</td>
           </tr>
         </tbody>

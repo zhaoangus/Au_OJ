@@ -43,13 +43,13 @@
           FAQ
         </router-link>
       </div>
-      <div class="item-wrapper" v-if="isAdmin">
+      <div class="item-wrapper" v-if="isAdmin" @mouseenter="enter" @mouseleave="leave">
         <router-link class="admin" to="/admin/useredit">
           <span class="iconfont icon-problem">&#xe7d5;</span>
           Admin
         </router-link>
         <transition name="dropdown">
-          <div class="dropdown">
+          <div class="dropdown" v-if="isHovered" :class="{active: isHovered}">
             <router-link class="dropdown-link" to="/createpro">Create Problem</router-link>
             <router-link class="dropdown-link" to="/createcon">Create Contest</router-link>
             <router-link class="dropdown-link" to="/createnews">Create News</router-link>
@@ -130,7 +130,7 @@
                   <label for="">Password</label>
                 </span>
                 <div class="input">
-                  <input :class="{active: !!pass_err}" type="text" v-model="input_pass">
+                  <input :class="{active: !!pass_err}" type="password" v-model="input_pass">
                   <div id="password-input-err">{{pass_err}}</div>
                 </div>
               </div>
@@ -140,7 +140,7 @@
                   <label for="">CheckPwd</label>
                 </span>
                 <div class="input">
-                  <input :class="{active: !check_pwd}" type="text" v-model="input_check">
+                  <input :class="{active: !check_pwd}" type="password" v-model="input_check">
                 </div>
               </div>
               <div class="btn-wrapper">
@@ -182,7 +182,8 @@ export default {
       isAdmin: false,
       type: '',
       message: '',
-      showAlert: false
+      showAlert: false,
+      isHovered: false
     }
   },
   methods: {
@@ -282,6 +283,12 @@ export default {
           this.$store.commit('logoutAdmin')
         }
       })
+    },
+    enter () {
+      this.isHovered = true
+    },
+    leave () {
+      this.isHovered = false
     }
   },
   watch: {
@@ -320,8 +327,6 @@ export default {
         display: inline-block
         height: 60px
         line-height: 60px
-        &:hover .dropdown
-          display: block
         .home, .problem, .discuss, .status, .ranklist, .contest, .faq, .admin
           display: inline-block
           height: 60px
@@ -339,6 +344,10 @@ export default {
           font-size: 12px
           background: #fff
           box-shadow: 1px 1px 1px #888
+          &.dropdown-enter-active, &.dropdown-leave-active
+            transition: opacity .3s ease
+          &.dropdown-enter, &.dropdown-leave-to
+            opacity: 0
           .dropdown-link
             width: 102px
             height: 35px
@@ -350,6 +359,8 @@ export default {
           .dropdown-link:hover
             color: #fff
             background: $themeColor
+        .active
+          display: block
     .login-nav
       display: inline-block
       margin-right: 5%
@@ -364,8 +375,9 @@ export default {
         .text
           display: inline-block
           margin-right: 20px
-          color: $themeColor
           cursor: pointer
+          #username
+            color: $themeColor
         .logout
           &:hover
             color: $themeColor
