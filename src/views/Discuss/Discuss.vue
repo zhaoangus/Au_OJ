@@ -16,7 +16,7 @@
           <tr align="left" v-for="item in discuss" :key="item.did">
             <td>{{item.did}}</td>
             <td><router-link class="title" :to="{name:'DisDescr',params:{did:item.did}}">{{item.title}}</router-link></td>
-            <td><router-link class="author" :to="{name: 'Info', params:{uid:item.uid}}">{{item.uid}}</router-link></td>
+            <td><router-link class="author" :to="{name: 'Info', params:{uid:item.uid}}">{{item.name}}</router-link></td>
             <td>{{item.update}}</td>
           </tr>
         </tbody>
@@ -66,7 +66,7 @@ export default {
       content: '',
       isLogin: false,
       isDisabled: true,
-      userName: ''
+      showName: false
     }
   },
   // computed: {
@@ -88,7 +88,13 @@ export default {
         this.num = res.data.num
         this.pageNum = res.data.pageNum
         this.timeUpNow(res.data.res)
-        // this.getUserName(res.data.res.uid)
+        // this.discuss.forEach(item => {
+        //   axios.post('/users/name', {
+        //     uid: parseInt(item.uid)
+        //   }).then(res => {
+        //     item.name = res.data.res.name
+        //   })
+        // })
         // this.$store.commit('currentDiscuss', res.data.res)
       })
     },
@@ -109,6 +115,13 @@ export default {
         this.discuss = res.data.res
         this.pageNum = res.data.pageNum
         this.timeUpNow(res.data.res)
+        // this.discuss.forEach(item => {
+        //   axios.post('/users/name', {
+        //     uid: parseInt(item.uid)
+        //   }).then(res => {
+        //     item.name = res.data.res.name
+        //   })
+        // })
       })
     },
     tochangePage (item) {
@@ -152,13 +165,6 @@ export default {
         }
       })
     }
-    // getUserName (uid) {
-    //   axios.post('/users/name', {
-    //     uid: parseInt(uid)
-    //   }).then(res => {
-    //     return res.data.res.name
-    //   })
-    // }
   },
   created () {
     this.ifLogin()
