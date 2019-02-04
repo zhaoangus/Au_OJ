@@ -43,17 +43,22 @@
         </form>
       </div>
     </div>
+    <Alert :type="type" v-if="showAlert" :show="showAlert"
+      :message="message"
+    ></Alert>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import JumpPage from '@/components/JumpPage'
+import Alert from '@/components/Alert'
 import { dateDiff } from '@/util/time'
 export default {
   name: 'Discuss',
   components: {
-    JumpPage
+    JumpPage,
+    Alert
   },
   data () {
     return {
@@ -66,7 +71,10 @@ export default {
       content: '',
       isLogin: false,
       isDisabled: true,
-      showName: false
+      showName: false,
+      type: '',
+      message: '',
+      showAlert: false
     }
   },
   // computed: {
@@ -135,26 +143,46 @@ export default {
     },
     submit () {
       if (!this.title) {
-        alert('标题不能为空')
+        this.showAlert = true
+        this.message = '标题不能为空'
+        this.type = 'error'
+        setTimeout(() => {
+          this.showAlert = false
+        }, 2000)
       } else {
+        let user = this.$store.state.user
         axios.post('/discuss/submit', {
           title: this.title,
+          uid: user.uid,
+          name: user.name,
           content: this.content,
           create: Date.now()
         }).then((res) => {
           if (parseInt(res.data.status) === 0) {
-            alert('提交成功！')
+            this.showAlert = true
+            this.message = '提交成功'
+            this.type = 'success'
+            setTimeout(() => {
+              this.showAlert = false
+            }, 2000)
             // this.$forceUpdate()
-            this.$router.go(0)
+            setTimeout(() => {
+              this.$router.go(0)
+            }, 2500)
           } else {
-            console.log('error')
+            this.showAlert = true
+            this.message = '提交失败'
+            this.type = 'error'
+            setTimeout(() => {
+              this.showAlert = false
+            }, 2000)
           }
         })
       }
     },
     ifLogin () {
       axios.get('/users/check').then((res) => {
-        if (parseInt(res.data.status) === 0) {
+        if (parseInt(res.data.status) === 0 || parseInt(res.data.status) === 2) {
           this.isLogin = true
           this.isDisabled = false
           this.$store.commit('saveName', res.data.result.userName)

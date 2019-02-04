@@ -7,7 +7,7 @@
       <div class="discuss-wrapper" v-for="(item,index) in currentDiscuss.comments"
       :key="index">
         <div class="author">
-          <span class="auth">{{item.uid}}</span>
+          <span class="auth">{{item.name}}</span>
           <span class="time">{{item.create}}</span>
         </div>
         <div class="discuss">
@@ -60,8 +60,11 @@ export default {
       let id = parseInt(this.$route.params.did)
       let time = Date.now()
       if (this.reply) {
+        let user = this.$store.state.user
         axios.post(`/discuss/${id}`, {
           reply: this.reply,
+          uid: user.uid,
+          name: user.name,
           create: time
         }).then((res) => {
           if (res.data.status === 0) {
@@ -71,7 +74,8 @@ export default {
             setTimeout(() => {
               this.showAlert = false
             }, 2000)
-            this.currentDiscuss.comments.push({uid: 1, content: this.reply, create: time})
+            let user = this.$store.state.user
+            this.currentDiscuss.comments.push({uid: user.uid, name: user.name, content: this.reply, create: time})
             this.timeUpNow(this.currentDiscuss.comments)
             this.reply = ''
           }

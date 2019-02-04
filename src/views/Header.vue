@@ -271,7 +271,7 @@ export default {
     logout () {
       axios.get('/users/logout').then((res) => {
         this.showAlert = true
-        this.message = `bye，${this.input_name}`
+        this.message = `bye，${this.$store.state.user.name}`
         this.type = 'success'
         setTimeout(() => {
           this.showAlert = false
