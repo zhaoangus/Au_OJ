@@ -24,7 +24,7 @@
           </thead>
           <tbody>
             <tr align="left" v-for="(item, index) in ranklist" :key="item.uid">
-              <td>{{index+1}}</td>
+              <td>{{(page-1)*20+index+1}}</td>
               <td><router-link :to="{name:'Info',params:{uid:item.uid}}" id="username">{{item.name}}</router-link></td>
               <td>{{item.nick}}</td>
               <td>{{item.motto}}</td>
@@ -74,6 +74,7 @@ export default {
       })
     },
     reload (currentpage) {
+      this.page = currentpage
       this.$router.push({
         path: 'ranklist',
         query: {
