@@ -9,7 +9,7 @@
       <div v-if="news" class="title">
         {{news.title}}
       </div>
-      <div class="date">2018-10-09 20:37:29</div>
+      <div class="date">{{news.create}}</div>
       <div v-if="news" class="content" v-html="news.content">
       </div>
     </div>
@@ -18,6 +18,7 @@
 
 <script>
 import axios from 'axios'
+import { getDate } from '@/util/getDate'
 // import { mapGetters } from 'vuex'
 export default {
   name: 'News',
@@ -42,8 +43,8 @@ export default {
     let id = parseInt(this.$route.params.nid)
     axios.get(`/news/${id}`).then((res) => {
       this.currentNews = res.data.res
+      this.currentNews.create = getDate(this.currentNews.create)
       this.$store.commit('currentNews', this.currentNews)
-      console.log(this.$store.state.news.content)
     })
   }
 }

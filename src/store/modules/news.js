@@ -2,6 +2,7 @@ const store = {
   state: {
     nid: 0,
     title: '',
+    create: 0,
     page: 0,
     pageNum: 0,
     content: {}
