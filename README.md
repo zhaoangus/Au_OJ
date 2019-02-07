@@ -63,6 +63,34 @@ OJ首页，包括消息列表和消息详情页，用户进入后首先看到的
         ├── News
         └── Problem
 ```
+前端一共有二十多张页面，为了保证首屏加载的速度，对部分路由进行懒加载。
+
+```
+const News = r => require.ensure([], () => r(require('@/views/News')), 'news')
+
+const Descr = r => require.ensure([], () => r(require('@/views/Problem/Descr')), 'problem')
+const Sub = r => require.ensure([], () => r(require('@/views/Problem/Sub')), 'problem')
+const Stat = r => require.ensure([], () => r(require('@/views/Problem/Stat')), 'problem')
+
+const DisDescr = r => require.ensure([], () => r(require('@/views/Discuss/DisDescr')), 'discuss')
+
+const ContestDetail = r => require.ensure([], () => r(require('@/views/contest/ContestDetail')), 'contest')
+
+const DetailOverview = r => require.ensure([], () => r(require('@/views/contest/DetailOverview')), 'detail')
+const DetailProblem = r => require.ensure([], () => r(require('@/views/contest/DetailProblem')), 'detail')
+const DetailSubmit = r => require.ensure([], () => r(require('@/views/contest/DetailSubmit')), 'detail')
+const DetailStatus = r => require.ensure([], () => r(require('@/views/contest/DetailStatus')), 'detail')
+const DetailRanklist = r => require.ensure([], () => r(require('@/views/contest/DetailRanklist')), 'detail')
+
+const Manage = r => require.ensure([], () => r(require('@/views/admin/Manage')), 'admin')
+const UserEdit = r => require.ensure([], () => r(require('@/views/admin/UserEdit')), 'admin')
+const GroupEdit = r => require.ensure([], () => r(require('@/views/admin/GroupEdit')), 'admin')
+const AdminEdit = r => require.ensure([], () => r(require('@/views/admin/AdminEdit')), 'admin')
+const TagEdit = r => require.ensure([], () => r(require('@/views/admin/TagEdit')), 'admin')
+const NewsCreate = r => require.ensure([], () => r(require('@/views/admin/NewsCreate')), 'admin')
+const ProblemCreate = r => require.ensure([], () => r(require('@/views/admin/ProblemCreate')), 'admin')
+const ContestCreate = r => require.ensure([], () => r(require('@/views/admin/ContestCreate')), 'admin')
+```
 
 ## 后端
 
