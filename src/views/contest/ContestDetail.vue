@@ -117,4 +117,6 @@ export default {
           &:hover
             cursor: pointer
             color: $themeColor
+        .router-link-exact-active
+          border-bottom: 1px solid $themeColor
 </style>
